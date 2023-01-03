@@ -33,9 +33,9 @@ export default function signup() {
 
   function signup(e) {
     e.preventDefault();
-    createUserWithEmailAndPassword(auth, name, email, password)
+    createUserWithEmailAndPassword(auth, email, password)
       .then(() => {
-
+       window.location.replace('/')
       })
       .catch(err => console.log(err))
   }
