@@ -44,16 +44,7 @@ function pageId() {
             console.log('posts',post)
            
             return (
-              // <li key={post.id} className='pt-10 flex w-1/2  p-4 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:drop-shadow-2xl duration-300 cursor-pointer'>
-              //   <h3 className={styles.postTitle}>
-              //     <Link href={`/pagelink/${post.id}`}>
-              //       <div>{post.Name}</div>
-              //     </Link>
-              //   </h3>
-
-              //   <p className={styles.postDescription}>{post.Date}</p>
-              //   <Link href={`/pagelink/${post.id}`}>Read post →</Link>
-              // </li> w-56 max-h-20 md:h-auto object-cover md:w-48 rounded-t-lg md:rounded-none md:rounded-l-lg
+            
               <div key={post.id} className="flex justify-center ">
                  <div className="flex flex-col max-h-48 md:flex-row md:max-w-xl rounded-lg bg-white shadow-lg mb-20 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:drop-shadow-2xl duration-300 cursor-pointer">
                    <img className="max-h-48 w-48" src="https://www.notion.so/images/page-cover/gradients_8.png" alt="" />
