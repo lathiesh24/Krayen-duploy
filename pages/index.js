@@ -16,7 +16,6 @@ export const Text = ({ text }) => {
     console.log('value',value)
     const {
       annotations: { bold, code, color, italic, strikethrough, underline },
-    
     } = value;
     // console.log('text',text)
     return (
@@ -41,12 +40,8 @@ function index({posts}) {
 console.log('posts',posts)
   
   return (
-    <div className="flex flex-col justify-center w-4/5 pt-20 pb-40  pl-96">
-       
-        
-
+    <div className="flex flex-col justify-center w-4/5 pt-20 pb-40 pl-96">
         <h2 className='mb-[70px]'>All Posts</h2>
-       
           {posts.map((post) => {
             const date = new Date(post.last_edited_time).toLocaleString(
               "en-US",
@@ -85,7 +80,7 @@ export default index;
 
 export const getStaticProps = async () => {
   const database = await getDatabase(databaseId);
-  //  const database =await getBlocks(pageId);
+   //const database =await getBlocks(pageId);
    console.log('dataaaaaa', database);
   return {
     props: {
