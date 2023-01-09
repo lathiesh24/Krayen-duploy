@@ -1,0 +1,44 @@
+import React from 'react'
+
+function callback({response}) {
+    console.log('response',response)
+  return (
+    <div>callback</div>
+  )
+}
+
+export default callback
+
+
+
+export async function getServerSideProps(resolvedUrl){
+    try{
+      const code = resolvedUrl.query.code;
+      console.log('code',resolvedUrl)
+
+      const res = await fetch(`https://api.notion.com/v1/oauth/token`,{
+        method:'post',
+        headers:new Headers({
+            'Authorization':'Basic ' + btoa(process.env.NOTION_CLIENT_ID + ":" + process.env.NOTION_CLIENT_SECRET),
+            'Content-Type':'application/json'
+        }),
+        body:JSON.stringify({
+            grant_type:'authorization_code',
+            code:code,
+            redirect_uri:'http://localhost:3000/auth/notion/callback'
+        })
+      });
+
+      console.log('res',res)
+
+      const response = await res.json()
+
+      return {
+        props:{
+            response
+        }
+      }
+    }catch (err){
+        console.log(err)
+    }
+}
