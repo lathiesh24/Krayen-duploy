@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
 import { getPage,getBlocks, getDatabase } from "../library/notion";
 
-function pagedatas({page,pageblock,blockchild}) {
+function pagedatas({
+    page,
+    pageblock,
+    blockchild
+}) {
 
-    //Color for Paraagraph 
+    console.log("page",page)
+    console.log("pageblock",pageblock)
+    console.log('blockchild',blockchild)
 
-    // console.log("page",page)
-    // console.log("pageblock",pageblock)
 
-console.log('blockchild',blockchild)
     const datasOfPage = pageblock
     const items = datasOfPage || []
-    // console.log("dataBlock",items)
-
-            const codeBlocks = 
+    const codeBlocks = 
                 items.map((block) => {
                 console.log("bloc",block?.heading_3?.rich_text[0]?.text?.content)
                   if(block.type == "callout") {
@@ -73,15 +74,35 @@ console.log('blockchild',blockchild)
                         </div>
                     )
                 }  else if(block.type == "toggle") {
-                    const [colorToggle, setColorToggle] = useState(block?.toggle?.color == "default" ? "gray" : "black")
-                    useEffect(()=>{
-                        setColorToggle(block?.toggle?.color)
-                        },[block])
-                    return (
-                        <div key={block?.id} className= {`text-${colorToggle}-400 font-medium leading-relaxed mb-4`}>
-                             {block?.toggle?.rich_text[0]?.text?.content}
+                        const [colorToggle, setColorToggle] = useState(block?.toggle?.color == "default" ? "gray" : "black");
+                        const [open, setOpen] = useState(false);
+
+                        const handleToggle = () => {
+                        setOpen(!open);
+                        };
+
+                        return (
+                        <div key={block?.id} className={`text-${colorToggle}-400 font-medium leading-relaxed mb-4 relative`}>
+                            <button className="focus:outline-none toggle-button" onClick={handleToggle}>
+                            <div className="flex items-center">
+                                <svg className="w-6 h-6" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 5L5 9L9 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <span className="ml-2 text-lg font-medium leading-5 text-gray-900"> {block?.toggle?.rich_text[0]?.text?.content}</span>
+                            </div>
+                            </button>
+                            {block.has_children && (
+                            <div className={`toggle-content ${open ? 'block' : 'hidden'}`}>
+                                {blockchild.map((child) => {
+                                if (child.type == "paragraph") {
+                                    return <p className="text-black">{child?.paragraph?.rich_text[0]?.text?.content}</p>;
+                                } 
+                                })}
+                            </div>
+                            )}
                         </div>
-                    )
+                        );
+
                 } else if(block.type == "to_do") {
                     const [colorToDo, setColorToDo] = useState(block?.to_do?.color == "default" ? "gray" : "black")
                     useEffect(()=>{
@@ -106,10 +127,6 @@ console.log('blockchild',blockchild)
                 }
 
             })
-        
-
-
-
 
   return (
    <div>
@@ -121,9 +138,10 @@ console.log('blockchild',blockchild)
 export default pagedatas
 
 
-export const databaseId = '4c699e3e758d41248751780fefed7d23';
-export const pageId='4606f5e400c34d68b8a0353328ad0c3c'
-                    
+export const databaseId = 'e649f6c751994c0ea85ac6cd6495e7f4'; 
+export const pageId='eb889e735554462ca107e68cd7ace229';
+
+
 export const getStaticPaths = async () => {
   const database = await getDatabase(databaseId)
   return {
@@ -134,7 +152,7 @@ export const getStaticPaths = async () => {
 
 
 
-export const blockid = 'a2f8852f-0bee-4c1e-9ba2-fcdd7c52eab6'
+ export const blockid = '2775902b-03c4-4e75-b06d-2f5ae5560761'
 
 
 
@@ -154,3 +172,26 @@ export const getStaticProps = async () => {
   };
 };
 
+//  export const blockd = 'a2f8852f-0bee-4c1e-9ba2-fcdd7c52eab6'
+
+
+// export const getStaticProps = async ({ params }) => {
+//    const pageblock = await getBlocks(pageId);
+//    const pagedata = await getPage(pageId);
+//    const childPromises = blockId.filter(id => id).map(id => getBlocks(id));
+//    const child = await Promise.all(childPromises);
+//   // const child = await getBlocks(blockId);
+// //    console.log('dataaaaaa', pageblock);
+// //    console.log("0hjh",pagedata);
+//   return {
+//     props: {
+//       page:pagedata,
+//       pageblock:pageblock,
+//       blockchild:child
+//     },
+//     revalidate: 1,
+//   };
+// };
+
+//export const databaseId = '4c699e3e758d41248751780fefed7d23';
+//export const pageId='4606f5e400c34d68b8a0353328ad0c3c'
