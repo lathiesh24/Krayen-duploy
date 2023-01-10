@@ -9,6 +9,7 @@ export const databaseId = '4c699e3e758d41248751780fefed7d23';
 export const pageId='4606f5e400c34d68b8a0353328ad0c3c'
 
 export const Text = ({ text }) => {
+  console.log("text", text);
   if (!text) {
     return null;
   }
