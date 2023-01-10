@@ -5,8 +5,8 @@ function pagedatas({page,pageblock,blockchild}) {
 
     //Color for Paraagraph 
 
-    // console.log("page",page)
-    // console.log("pageblock",pageblock)
+    console.log("page",page)
+    console.log("pageblock",pageblock)
 
 console.log('blockchild',blockchild)
     const datasOfPage = pageblock
@@ -15,7 +15,7 @@ console.log('blockchild',blockchild)
 
             const codeBlocks = 
                 items.map((block) => {
-                console.log("bloc",block?.heading_3?.rich_text[0]?.text?.content)
+                // console.log("bloc",block?.heading_3?.rich_text[0]?.text?.content)
                   if(block.type == "callout") {
                     return (
                         <div key={block?.id} className="px-4 py-2 text-black bg-yellow-200 rounded-xl" >
@@ -88,7 +88,7 @@ console.log('blockchild',blockchild)
                         setColorToDo(block?.to_do?.color)
                         },[block])
                     const classNameCheck = block?.to_do?.checked == true ? "line-through" : '';
-                        console.log("todo",classNameCheck)
+                        // console.log("todo",classNameCheck)
                     return (
                         <div key={block?.id} className= {`text-${colorToDo}-400 font-medium  ${classNameCheck} leading-relaxed mb-4`}>
                              <input type="checkbox" checked={block?.to_do?.checked} />
@@ -135,8 +135,6 @@ export const getStaticPaths = async () => {
 
 
 export const blockid = 'a2f8852f-0bee-4c1e-9ba2-fcdd7c52eab6'
-
-
 
 export const getStaticProps = async () => {
    const pageblock = await getBlocks(pageId);
