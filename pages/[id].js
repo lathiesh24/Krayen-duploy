@@ -193,6 +193,29 @@ function pagedatas({ page, pageblock, blockchild }) {
           {block.numbered_list_item.rich_text[0].text.content}
         </li>
       );
+    } else if (block.type === "table") {
+      return (
+        <tbody>
+          {block?.table?.has_row_header &&
+            something.map((row, i) => (
+              <tr key={i}>
+                {row.map((cell, j) => (
+                  <td
+                    key={j}
+                    className={`border px-4 py-2 text-green-600 ${
+                      (j == 0 && block?.table?.has_column_header) ||
+                      (i == 0 && block?.table?.has_row_header)
+                        ? "font-bold"
+                        : ""
+                    }`}
+                  >
+                    {cell || ""}
+                  </td>
+                ))}
+              </tr>
+            ))}
+        </tbody>
+      );
     }
   });
 
@@ -204,8 +227,8 @@ export default pagedatas;
 export const databaseId = "e649f6c751994c0ea85ac6cd6495e7f4";
 export const pageId = "eb889e735554462ca107e68cd7ace229";
 
-// export const databaseId = "4c699e3e758d41248751780fefed7d23";
-// export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";
+//export const databaseId = "4c699e3e758d41248751780fefed7d23";
+//export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";
 
 export const getStaticPaths = async () => {
   const database = await getDatabase(databaseId);
