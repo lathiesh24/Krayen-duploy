@@ -9,8 +9,8 @@ function pagedatas({
 
     //Color for Paraagraph 
 
-    // console.log("page",page)
-    // console.log("pageblock",pageblock)
+    console.log("page",page)
+    console.log("pageblock",pageblock)
 
 console.log('blockchild',blockchild)
     const datasOfPage = pageblock
@@ -153,21 +153,21 @@ export const getStaticPaths = async () => {
 
 
 
-export const blockid = 'a2f8852f-0bee-4c1e-9ba2-fcdd7c52eab6'
+//export const blockid = 'a2f8852f-0bee-4c1e-9ba2-fcdd7c52eab6'
 
 
 
 export const getStaticProps = async () => {
    const pageblock = await getBlocks(pageId);
    const pagedata = await getPage(pageId);
-   const child = await getBlocks(blockid);
+  // const child = await getBlocks(blockid);
 //    console.log('dataaaaaa', pageblock);
 //    console.log("0hjh",pagedata);
   return {
     props: {
       page:pagedata,
       pageblock:pageblock,
-      blockchild:child
+    //  blockchild:child
     },
     revalidate: 1,
   };

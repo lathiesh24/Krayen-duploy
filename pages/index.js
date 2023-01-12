@@ -46,8 +46,7 @@ function index({posts}) {
 console.log('posts',posts)
   
   return (
-    <div className="flex flex-col max-w-screen-2xl min-h-screen items-center
-     justify-center">
+    <div className="flex flex-col items-center justify-center min-h-screen max-w-screen-2xl">
         <h2 className='mb-[70px]'>All Posts</h2>
           {posts.map((post) => {
             const date = new Date(post.last_edited_time).toLocaleString(
@@ -66,7 +65,7 @@ console.log('posts',posts)
                    <img src={post?.cover?.external?.url} alt="" className="min-w-[280px] min-h-[210px] max-w-[280px] max-h-[210px] object-cover rounded-2xl"/>
                    </div>
                    <div className="ml-3">
-                  <h3 className=' font-bold pl-2'>
+                  <h3 className='pl-2 font-bold '>
                       <Text text={post.properties.Name.title} />
                   </h3>
                   <div className="  flex-grow h-[90px] p-3 ">
