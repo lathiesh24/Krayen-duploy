@@ -23,7 +23,10 @@ function pagedatas({ page, pageblock, blockchild }) {
   const datasOfPage = pageblock;
   const items = datasOfPage || [];
   const codeBlocks = items.map((block) => {
-    console.log("bloc", block?.heading_3?.rich_text[0]?.text?.content);
+    console.log(
+      "bloc",
+      block?.heading_3?.rich_text.map((item) => item?.text?.content)
+    );
     if (block.type == "callout") {
       return (
         <div
@@ -37,7 +40,7 @@ function pagedatas({ page, pageblock, blockchild }) {
                 ? block?.callout?.icon?.emoji
                 : ""}
             </span>
-            {block?.callout?.rich_text[0]?.text?.content}
+            {block?.callout?.rich_text.map((item) => item?.text?.content)}
           </div>
         </div>
       );
@@ -47,7 +50,7 @@ function pagedatas({ page, pageblock, blockchild }) {
           className={`p-4 overflow-x-auto text-white bg-gray-800 rounded-md`}
           key={block.id}
         >
-          {block?.code?.rich_text[0]?.text?.content}
+          {block?.code?.rich_text.map((item) => item?.text?.content)}
         </pre>
       );
 
@@ -58,7 +61,7 @@ function pagedatas({ page, pageblock, blockchild }) {
           key={block?.id}
           className="text-xl font-bold text-gray-800 capitalize"
         >
-          {block?.heading_3?.rich_text[0]?.text?.content}
+          {block?.heading_3?.rich_text.map((item) => item?.text?.content)}
         </div>
       );
     } else if (block.type == "heading_2") {
@@ -67,7 +70,7 @@ function pagedatas({ page, pageblock, blockchild }) {
           key={block?.id}
           className="text-2xl font-bold text-gray-800 capitalize "
         >
-          {block?.heading_2?.rich_text[0]?.text?.content}
+          {block?.heading_2?.rich_text.map((item) => item?.text?.content)}
         </div>
       );
     } else if (block.type == "heading_1") {
@@ -76,7 +79,7 @@ function pagedatas({ page, pageblock, blockchild }) {
           key={block?.id}
           className="text-3xl font-bold leading-tight capitalize"
         >
-          {block?.heading_1?.rich_text[0]?.text?.content}
+          {block?.heading_1?.rich_text.map((item) => item?.text?.content)}
         </div>
       );
     }
@@ -89,14 +92,8 @@ function pagedatas({ page, pageblock, blockchild }) {
       useEffect(() => {
         setColorPara(block?.paragraph?.color);
       }, [block]);
-
       return (
-        <div
-          key={block?.id}
-          className={`max-w-full w-full text-lg white-space-pre-wrap word-break-break-word caret-color-${colorPara}-500 p-3`}
-        >
-          {block?.paragraph?.rich_text[0]?.text?.content}
-        </div>
+        <div>{block?.quote?.rich_text.map((item) => item?.text?.content)}</div>
       );
     } else if (block.type == "quote") {
       const [colorQuote, setColorQuote] = useState(
@@ -110,7 +107,7 @@ function pagedatas({ page, pageblock, blockchild }) {
           key={block?.id}
           className={`w-full caret-color-${colorQuote}-500 p-3 max-w-full text-lg border-gray-800 white-space-pre-wrap word-break-break-word text-md border-x-4`}
         >
-          {block?.quote?.rich_text[0]?.text?.content}
+          {block?.quote?.rich_text.map((item) => item?.text?.content)}
         </div>
       );
     } else if (block.type == "toggle") {
@@ -149,11 +146,11 @@ function pagedatas({ page, pageblock, blockchild }) {
               </svg>
               <span className="ml-2 text-lg font-medium leading-5 text-gray-900">
                 {" "}
-                {block?.toggle?.rich_text[0]?.text?.content}
+                {block?.toggle?.rich_text.map((item) => item?.text?.content)}
               </span>
             </div>
           </button>
-          {block.has_children && (
+          {/* {block.has_children && (
             <div className={`toggle-content ${open ? "block" : "hidden"}`}>
               {blockchild.map((child) => {
                 if (child.type == "paragraph") {
@@ -165,7 +162,7 @@ function pagedatas({ page, pageblock, blockchild }) {
                 }
               })}
             </div>
-          )}
+          )} */}
         </div>
       );
     } else if (block.type == "to_do") {
@@ -184,39 +181,42 @@ function pagedatas({ page, pageblock, blockchild }) {
           className={`text-${colorToDo}-400 font-medium  ${classNameCheck} leading-relaxed mb-4`}
         >
           <input type="checkbox" checked={block?.to_do?.checked} />
-          {block?.to_do?.rich_text[0]?.text?.content}
+          {block?.to_do?.rich_text.map((item) => item?.text?.content)}
         </div>
       );
     } else if (block.type === "numbered_list_item") {
       return (
         <li className="list-decimal text-md">
-          {block.numbered_list_item.rich_text[0].text.content}
+          {block.numbered_list_item.rich_text.map(
+            (item) => item?.text?.content
+          )}
         </li>
       );
-    } else if (block.type === "table") {
-      return (
-        <tbody>
-          {block?.table?.has_row_header &&
-            something.map((row, i) => (
-              <tr key={i}>
-                {row.map((cell, j) => (
-                  <td
-                    key={j}
-                    className={`border px-4 py-2 text-green-600 ${
-                      (j == 0 && block?.table?.has_column_header) ||
-                      (i == 0 && block?.table?.has_row_header)
-                        ? "font-bold"
-                        : ""
-                    }`}
-                  >
-                    {cell || ""}
-                  </td>
-                ))}
-              </tr>
-            ))}
-        </tbody>
-      );
     }
+    // else if (block.type === "table") {
+    //   return (
+    //     <tbody>
+    //       {block?.table?.has_row_header &&
+    //         something.map((row, i) => (
+    //           <tr key={i}>
+    //             {row.map((cell, j) => (
+    //               <td
+    //                 key={j}
+    //                 className={`border px-4 py-2 text-green-600 ${
+    //                   (j == 0 && block?.table?.has_column_header) ||
+    //                   (i == 0 && block?.table?.has_row_header)
+    //                     ? "font-bold"
+    //                     : ""
+    //                 }`}
+    //               >
+    //                 {cell || ""}
+    //               </td>
+    //             ))}
+    //           </tr>
+    //         ))}
+    //     </tbody>
+    //   );
+    // }
   });
 
   return <div>{codeBlocks}</div>;
@@ -224,11 +224,11 @@ function pagedatas({ page, pageblock, blockchild }) {
 
 export default pagedatas;
 
-export const databaseId = "e649f6c751994c0ea85ac6cd6495e7f4";
-export const pageId = "eb889e735554462ca107e68cd7ace229";
+// export const databaseId = "e649f6c751994c0ea85ac6cd6495e7f4";
+// export const pageId = "eb889e735554462ca107e68cd7ace229";
 
-//export const databaseId = "4c699e3e758d41248751780fefed7d23";
-//export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";
+export const databaseId = "4c699e3e758d41248751780fefed7d23";
+export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";
 
 export const getStaticPaths = async () => {
   const database = await getDatabase(databaseId);
@@ -238,19 +238,19 @@ export const getStaticPaths = async () => {
   };
 };
 
-export const blockid = "2775902b-03c4-4e75-b06d-2f5ae5560761";
+//export const blockid = "2775902b-03c4-4e75-b06d-2f5ae5560761";
 
 export const getStaticProps = async () => {
   const pageblock = await getBlocks(pageId);
   const pagedata = await getPage(pageId);
-  const child = await getBlocks(blockid);
+  //  const child = await getBlocks(blockid);
   //    console.log('dataaaaaa', pageblock);
   //    console.log("0hjh",pagedata);
   return {
     props: {
       page: pagedata,
       pageblock: pageblock,
-      blockchild: child,
+      // blockchild: child,
     },
     revalidate: 1,
   };
