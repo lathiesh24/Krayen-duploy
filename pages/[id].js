@@ -113,61 +113,61 @@ function pagedatas({ page, pageblock, blockchild }) {
           {block?.quote?.rich_text[0]?.text?.content}
         </div>
       );
-    // } else if (block.type == "toggle") {
-    //   const [colorToggle, setColorToggle] = useState(
-    //     block?.toggle?.color == "default" ? "gray" : "black"
-    //   );
-    //   const [open, setOpen] = useState(false);
+    } else if (block.type == "toggle") {
+      const [colorToggle, setColorToggle] = useState(
+        block?.toggle?.color == "default" ? "gray" : "black"
+      );
+      const [open, setOpen] = useState(false);
 
-    //   const handleToggle = () => {
-    //     setOpen(!open);
-    //   };
+      const handleToggle = () => {
+        setOpen(!open);
+      };
 
-    //   return (
-    //     <div
-    //       key={block?.id}
-    //       className={`text-${colorToggle}-400 font-medium leading-relaxed mb-4 relative`}
-    //     >
-    //       <button
-    //         className="focus:outline-none toggle-button"
-    //         onClick={handleToggle}
-    //       >
-    //         <div className="flex items-center">
-    //           <svg
-    //             className="w-6 h-6"
-    //             viewBox="0 0 20 20"
-    //             fill="none"
-    //             xmlns="http://www.w3.org/2000/svg"
-    //           >
-    //             <path
-    //               d="M9 5L5 9L9 13"
-    //               stroke="currentColor"
-    //               stroke-width="2"
-    //               stroke-linecap="round"
-    //               stroke-linejoin="round"
-    //             />
-    //           </svg>
-    //           <span className="ml-2 text-lg font-medium leading-5 text-gray-900">
-    //             {" "}
-    //             {block?.toggle?.rich_text[0]?.text?.content}
-    //           </span>
-    //         </div>
-    //       </button>
-    //       {block.has_children && (
-    //         <div className={`toggle-content ${open ? "block" : "hidden"}`}>
-    //           {blockchild.map((child) => {
-    //             if (child.type == "paragraph") {
-    //               return (
-    //                 <p className="text-black">
-    //                   {child?.paragraph?.rich_text[0]?.text?.content}
-    //                 </p>
-    //               );
-    //             }
-    //           })}
-    //         </div>
-    //       )}
-    //     </div>
-    //   );
+       return (
+        <div
+          key={block?.id}
+          className={`text-${colorToggle}-400 font-medium mt-5 leading-relaxed mb-4 relative`}
+        >
+          <button
+            className="focus:outline-none toggle-button"
+            onClick={handleToggle}
+          >
+            <div className="flex items-center">
+              <svg
+                className="w-6 h-6"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M9 5L5 9L9 13"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span className="ml-2 text-lg font-medium leading-5 text-gray-900">
+                {" "}
+                {block?.toggle?.rich_text[0]?.text?.content}
+              </span>
+            </div>
+          </button>
+          {/* {block.has_children && (
+            <div className={`toggle-content ${open ? "block" : "hidden"}`}>
+              {blockchild.map((child) => {
+                if (child.type == "paragraph") {
+                  return (
+                    <p className="text-black">
+                      {child?.paragraph?.rich_text[0]?.text?.content}
+                    </p>
+                  );
+                }
+              })}
+            </div>
+          )} */}
+        </div>
+      );
     } else if (block.type == "to_do") {
       const [colorToDo, setColorToDo] = useState(
         block?.to_do?.color == "default" ? "gray" : "black"
@@ -212,8 +212,7 @@ function pagedatas({ page, pageblock, blockchild }) {
             {block.paragraph.rich_text[0].equation.expression}      
         </div>
     );
-}
-else if (block.type == "bulleted_list_item") {
+    }else if (block.type == "bulleted_list_item") {
       return (
         <ul className="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
             <li className="text-md">
@@ -221,7 +220,30 @@ else if (block.type == "bulleted_list_item") {
             </li>
         </ul>
       );
-    } 
+    }   else if (block.type === "table") {
+      return (
+        <tbody>
+          {block?.table?.has_row_header &&
+            something.map((row, i) => (
+              <tr key={i}>
+                {row.map((cell, j) => (
+                  <td
+                    key={j}
+                    className={`border px-4 py-2 text-green-600 ${
+                      (j == 0 && block?.table?.has_column_header) ||
+                      (i == 0 && block?.table?.has_row_header)
+                        ? "font-bold"
+                        : ""
+                    }`}
+                  >
+                    {cell || ""}
+                  </td>
+                ))}
+              </tr>
+            ))}
+        </tbody>
+      );
+    }
   });
 
   return <div>{codeBlocks}</div>;
