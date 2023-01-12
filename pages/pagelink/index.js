@@ -22,7 +22,7 @@ console.log(link.split('/')[3])
       const pageData=await axios.get(`https://notion-api.splitbee.io/v1/page/${pageId}`)
       console.log(pageData)
       if(pageData){
-        window.location.replace(`/page/${pageId}`)
+        window.location.replace(`/`)
       }
      }
      getpagedata()
@@ -35,9 +35,9 @@ console.log(link.split('/')[3])
     async function getTableData(){
         const damta = await axios.get(`https://notion-api.splitbee.io/v1/table/${pageId}`)
         console.log(damta)
-        // if(damta){
-        //   window.location.replace(`/table/${pageId}`)
-        // }
+        if(damta){
+          window.location.replace(`/`)
+        }
     }
     getTableData()
     
@@ -54,13 +54,12 @@ console.log(link.split('/')[3])
         <div className='flex flex-col bg-black rounded-lg w-1/2 p-10'>
             <div className='p-2 font-semibold text-white mb-4'>Paste your Notion page link here</div>
             <div className='p-2'>
-                <input type='text' className='bg-gray-100 w-11/12 font-normal p-1.5 text-md opacity-90 outline-none' value={link} onChange={e=>setlink(e.target.value)}/>
-                {/* <a href="https://api.notion.com/v1/oauth/authorize?owner=user&client_id=8265c9b884894e7996acfc25e37c373c&redirect_uri=https://localhost:3000&response_type=code">Add to Notion</a> */}
+                <input type='text' className='bg-white w-11/12 font-normal p-1.5 text-md opacity-90 outline-none' value={link} onChange={e=>setlink(e.target.value)}/>
             </div>
              {errorcheck?<div>{error}</div>:('')}
              <div>
               
-              <button type="button" onClick={getSite} className=" mt-4 ml-3 inline-block px-6 py-2.5 bg-indigo-200 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Proceed</button>
+              <button type="button" onClick={getSite} className=" mt-4 ml-3 inline-block px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Proceed</button>
              </div>
         </div>
     </div>

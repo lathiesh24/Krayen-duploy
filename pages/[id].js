@@ -4,7 +4,7 @@ import { getPage, getBlocks, getDatabase } from "../library/notion";
 function pagedatas({ page, pageblock, blockchild }) {
   console.log("page", page);
   console.log("pageblock", pageblock);
-  console.log("blockchild", blockchild);
+  // console.log("blockchild", blockchild);
 
   const datasOFBlock = blockchild;
   const definedBlock = datasOFBlock || [];
@@ -47,7 +47,10 @@ function pagedatas({ page, pageblock, blockchild }) {
           className={`p-4 overflow-x-auto mt-5 text-black bg-[#F2F2F2] rounded-md`}
           key={block.id}
         >
-          {block?.code?.rich_text[0]?.text?.content}
+          <div className="flex justify-end">
+            {block?.code.language}
+          </div>
+          <div> {block?.code?.rich_text[0]?.text?.content}</div>
         </pre>
       );
 
@@ -177,7 +180,7 @@ function pagedatas({ page, pageblock, blockchild }) {
       }, [block]);
       const classNameCheck =
         block?.to_do?.checked == true ? "line-through" : "";
-      console.log("todo", classNameCheck);
+      // console.log("todo", classNameCheck);
       return (
         <div
           key={block?.id}
@@ -209,7 +212,7 @@ export default pagedatas;
 // export const pageId = "eb889e735554462ca107e68cd7ace229";
 
 export const databaseId = "4c699e3e758d41248751780fefed7d23";
-export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";
+// export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";
 
 export const getStaticPaths = async () => {
   const database = await getDatabase(databaseId);
@@ -221,7 +224,9 @@ export const getStaticPaths = async () => {
 
 export const blockid = "2775902b-03c4-4e75-b06d-2f5ae5560761";
 
-export const getStaticProps = async () => {
+export const getStaticProps = async (context) => {
+  console.log('context',context)
+  const pageId = context.params.id;
   const pageblock = await getBlocks(pageId);
   const pagedata = await getPage(pageId);
   // const child = await getBlocks(blockid);
@@ -237,22 +242,3 @@ export const getStaticProps = async () => {
   };
 };
 
-//  export const blockd = 'a2f8852f-0bee-4c1e-9ba2-fcdd7c52eab6'
-
-// export const getStaticProps = async ({ params }) => {
-//    const pageblock = await getBlocks(pageId);
-//    const pagedata = await getPage(pageId);
-//    const childPromises = blockId.filter(id => id).map(id => getBlocks(id));
-//    const child = await Promise.all(childPromises);
-//   // const child = await getBlocks(blockId);
-// //    console.log('dataaaaaa', pageblock);
-// //    console.log("0hjh",pagedata);
-//   return {
-//     props: {
-//       page:pagedata,
-//       pageblock:pageblock,
-//       blockchild:child
-//     },
-//     revalidate: 1,
-//   };
-// };
