@@ -12,7 +12,7 @@ function pagedatas({ page, pageblock, blockchild }) {
   const something = definedBlock.map((child) => {
     return child.type === "table_row"
       ? child?.table_row?.cells.map((item) => item[0]?.text.content)
-      : "";
+      : ""; 
   });
   const rows = something.map((row) => {
     return row.map((cell) => cell);
@@ -113,61 +113,61 @@ function pagedatas({ page, pageblock, blockchild }) {
           {block?.quote?.rich_text[0]?.text?.content}
         </div>
       );
-    } else if (block.type == "toggle") {
-      const [colorToggle, setColorToggle] = useState(
-        block?.toggle?.color == "default" ? "gray" : "black"
-      );
-      const [open, setOpen] = useState(false);
+    // } else if (block.type == "toggle") {
+    //   const [colorToggle, setColorToggle] = useState(
+    //     block?.toggle?.color == "default" ? "gray" : "black"
+    //   );
+    //   const [open, setOpen] = useState(false);
 
-      const handleToggle = () => {
-        setOpen(!open);
-      };
+    //   const handleToggle = () => {
+    //     setOpen(!open);
+    //   };
 
-      return (
-        <div
-          key={block?.id}
-          className={`text-${colorToggle}-400 font-medium leading-relaxed mb-4 relative`}
-        >
-          <button
-            className="focus:outline-none toggle-button"
-            onClick={handleToggle}
-          >
-            <div className="flex items-center">
-              <svg
-                className="w-6 h-6"
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M9 5L5 9L9 13"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-              <span className="ml-2 text-lg font-medium leading-5 text-gray-900">
-                {" "}
-                {block?.toggle?.rich_text[0]?.text?.content}
-              </span>
-            </div>
-          </button>
-          {block.has_children && (
-            <div className={`toggle-content ${open ? "block" : "hidden"}`}>
-              {blockchild.map((child) => {
-                if (child.type == "paragraph") {
-                  return (
-                    <p className="text-black">
-                      {child?.paragraph?.rich_text[0]?.text?.content}
-                    </p>
-                  );
-                }
-              })}
-            </div>
-          )}
-        </div>
-      );
+    //   return (
+    //     <div
+    //       key={block?.id}
+    //       className={`text-${colorToggle}-400 font-medium leading-relaxed mb-4 relative`}
+    //     >
+    //       <button
+    //         className="focus:outline-none toggle-button"
+    //         onClick={handleToggle}
+    //       >
+    //         <div className="flex items-center">
+    //           <svg
+    //             className="w-6 h-6"
+    //             viewBox="0 0 20 20"
+    //             fill="none"
+    //             xmlns="http://www.w3.org/2000/svg"
+    //           >
+    //             <path
+    //               d="M9 5L5 9L9 13"
+    //               stroke="currentColor"
+    //               stroke-width="2"
+    //               stroke-linecap="round"
+    //               stroke-linejoin="round"
+    //             />
+    //           </svg>
+    //           <span className="ml-2 text-lg font-medium leading-5 text-gray-900">
+    //             {" "}
+    //             {block?.toggle?.rich_text[0]?.text?.content}
+    //           </span>
+    //         </div>
+    //       </button>
+    //       {block.has_children && (
+    //         <div className={`toggle-content ${open ? "block" : "hidden"}`}>
+    //           {blockchild.map((child) => {
+    //             if (child.type == "paragraph") {
+    //               return (
+    //                 <p className="text-black">
+    //                   {child?.paragraph?.rich_text[0]?.text?.content}
+    //                 </p>
+    //               );
+    //             }
+    //           })}
+    //         </div>
+    //       )}
+    //     </div>
+    //   );
     } else if (block.type == "to_do") {
       const [colorToDo, setColorToDo] = useState(
         block?.to_do?.color == "default" ? "gray" : "black"
@@ -187,13 +187,41 @@ function pagedatas({ page, pageblock, blockchild }) {
           {block?.to_do?.rich_text[0]?.text?.content}
         </div>
       );
-    } else if (block.type === "numbered_list_item") {
+    } else if (block.type == "numbered_list_item") {
       return (
         <li className="list-decimal text-md">
           {block.numbered_list_item.rich_text[0].text.content}
         </li>
       );
-    }
+    } else if (block.type == "video" ) {
+        return (
+            <div>
+                {/* <span>{block.video.caption}</span> */}
+                <a href={`${block.video.external.url}`}>{block.video.external.url}</a>
+            </div>
+        )
+    } else if (block.type == "image") {
+        return (
+            <div>
+              <img src={`${block.image.file.url}`} alt="" />               
+            </div>
+        )
+    } else if (block && block.type === "paragraph" && block.paragraph && block.paragraph.rich_text && block.paragraph.rich_text[0] && block.paragraph.rich_text[0].type === "equation" && block.paragraph.rich_text[0].equation) {
+    return (
+        <div>
+            {block.paragraph.rich_text[0].equation.expression}      
+        </div>
+    );
+}
+else if (block.type == "bulleted_list_item") {
+      return (
+        <ul className="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
+            <li className="text-md">
+            {block.bulleted_list_item.rich_text[0].text.content}
+            </li>
+        </ul>
+      );
+    } 
   });
 
   return <div>{codeBlocks}</div>;
@@ -201,11 +229,11 @@ function pagedatas({ page, pageblock, blockchild }) {
 
 export default pagedatas;
 
-export const databaseId = "e649f6c751994c0ea85ac6cd6495e7f4";
-export const pageId = "eb889e735554462ca107e68cd7ace229";
+// export const databaseId = "e649f6c751994c0ea85ac6cd6495e7f4";
+// export const pageId = "eb889e735554462ca107e68cd7ace229";
 
-// export const databaseId = "4c699e3e758d41248751780fefed7d23";
-// export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";
+export const databaseId = "4c699e3e758d41248751780fefed7d23";
+export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";
 
 export const getStaticPaths = async () => {
   const database = await getDatabase(databaseId);
@@ -215,19 +243,19 @@ export const getStaticPaths = async () => {
   };
 };
 
-export const blockid = "2775902b-03c4-4e75-b06d-2f5ae5560761";
+// export const blockid = "2775902b-03c4-4e75-b06d-2f5ae5560761";
 
 export const getStaticProps = async () => {
   const pageblock = await getBlocks(pageId);
   const pagedata = await getPage(pageId);
-  const child = await getBlocks(blockid);
+  //const child = await getBlocks(blockid);
   //    console.log('dataaaaaa', pageblock);
   //    console.log("0hjh",pagedata);
   return {
     props: {
       page: pagedata,
       pageblock: pageblock,
-      blockchild: child,
+      //blockchild: child,
     },
     revalidate: 1,
   };
