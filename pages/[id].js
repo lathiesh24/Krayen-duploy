@@ -220,29 +220,29 @@ function pagedatas({ page, pageblock, blockchild }) {
             </li>
         </ul>
       );
-    }   else if (block.type === "table") {
-      return (
-        <tbody>
-          {block?.table?.has_row_header &&
-            something.map((row, i) => (
-              <tr key={i}>
-                {row.map((cell, j) => (
-                  <td
-                    key={j}
-                    className={`border px-4 py-2 text-green-600 ${
-                      (j == 0 && block?.table?.has_column_header) ||
-                      (i == 0 && block?.table?.has_row_header)
-                        ? "font-bold"
-                        : ""
-                    }`}
-                  >
-                    {cell || ""}
-                  </td>
-                ))}
-              </tr>
-            ))}
-        </tbody>
-      );
+    // }   else if (block.type === "table") {
+    //   return (
+    //     <tbody>
+    //       {block?.table?.has_row_header &&
+    //         something.map((row, i) => (
+    //           <tr key={i}>
+    //             {row.map((cell, j) => (
+    //               <td
+    //                 key={j}
+    //                 className={`border px-4 py-2 text-green-600 ${
+    //                   (j == 0 && block?.table?.has_column_header) ||
+    //                   (i == 0 && block?.table?.has_row_header)
+    //                     ? "font-bold"
+    //                     : ""
+    //                 }`}
+    //               >
+    //                 {cell || ""}
+    //               </td>
+    //             ))}
+    //           </tr>
+    //         ))}
+    //     </tbody>
+    //   );
     }
   });
 
