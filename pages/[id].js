@@ -187,49 +187,11 @@ function pagedatas({ page, pageblock, blockchild }) {
           {block?.to_do?.rich_text[0]?.text?.content}
         </div>
       );
-    } else if (block.type == "numbered_list_item") {
+    } else if (block.type === "numbered_list_item") {
       return (
         <li className="list-decimal text-md">
           {block.numbered_list_item.rich_text[0].text.content}
         </li>
-      );
-    } else if (block.type == "table") {
-      return (
-        <div key={block?.id}>
-          <table className="table-auto">
-            <thead>
-              {/* <tr className="bg-gray-200 text-indigo-700">
-                <th className="px-4 py-2">Header1</th>
-                <th className="px-4 py-2">Header2</th>
-                <th className="px-4 py-2">Header3</th>
-                <th className="px-4 py-2">Header4</th>
-                <th className="px-4 py-2">Header5</th>
-                <th className="px-4 py-2">Header6</th> 
-              </tr> */}
-            </thead>
-            <tbody>
-              {block?.table?.has_row_header &&
-                something.map((row, i) => (
-                  <tr key={i}>
-                    {row.map((cell, j) => (
-                      <td
-                        key={j}
-                        className={`border px-4 py-2 text-green-600 ${
-                          (j == 0 && block?.table?.has_column_header) ||
-                          (i == 0 && block?.table?.has_row_header)
-                            ? "font-bold"
-                            : ""
-                        }`}
-                      >
-                        {cell || ""}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-            </tbody>
-            {/* <th className="text-green-500">{something[0].table_row.cells}</th> */}
-          </table>
-        </div>
       );
     }
   });
@@ -254,7 +216,6 @@ export const getStaticPaths = async () => {
 };
 
 export const blockid = "2775902b-03c4-4e75-b06d-2f5ae5560761";
-//export const blockid = "a2f8852f-0bee-4c1e-9ba2-fcdd7c52eab6";
 
 export const getStaticProps = async () => {
   const pageblock = await getBlocks(pageId);
