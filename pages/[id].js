@@ -59,7 +59,7 @@ function pagedatas({ page, pageblock, blockchild }) {
       return (
         <div
           key={block?.id}
-          className="text-3xl mt-5 font-medium text-gray-800 capitalize"
+          className="mt-5 text-3xl font-medium text-gray-800 capitalize"
         >
           {block?.heading_3?.rich_text[0]?.text?.content}
         </div>
@@ -68,7 +68,7 @@ function pagedatas({ page, pageblock, blockchild }) {
       return (
         <div
           key={block?.id}
-          className="text-4xl mt-4 font-semibold text-gray-800 capitalize "
+          className="mt-4 text-4xl font-semibold text-gray-800 capitalize "
         >
           {block?.heading_2?.rich_text[0]?.text?.content}
         </div>
@@ -77,7 +77,7 @@ function pagedatas({ page, pageblock, blockchild }) {
       return (
         <div
           key={block?.id}
-          className="text-6xl mt-5 font-bold leading-tight capitalize "
+          className="mt-5 text-6xl font-bold leading-tight capitalize "
         >
           {block?.heading_1?.rich_text[0]?.text?.content}
         </div>
@@ -187,12 +187,12 @@ function pagedatas({ page, pageblock, blockchild }) {
           className={`text-${colorToDo}-400 mt-5  ${classNameCheck} leading-relaxed mb-4`}
         >
           <input type="checkbox" checked={block?.to_do?.checked} />
-          <span className=" text-lg ml-2">{block?.to_do?.rich_text[0]?.text?.content}</span>
+          <span className="ml-2 text-lg ">{block?.to_do?.rich_text[0]?.text?.content}</span>
         </div>
       );
     } else if (block.type === "numbered_list_item") {
       return (
-        <li className="list-decimal text-md mt-5">
+        <li className="mt-5 list-decimal text-md">
           {block.numbered_list_item.rich_text[0].text.content}
         </li>
       );
@@ -200,7 +200,7 @@ function pagedatas({ page, pageblock, blockchild }) {
   });
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex items-center justify-center">
       <div className=" w-[800px]">{codeBlocks}</div>;
     </div>
   )
@@ -211,7 +211,7 @@ export default pagedatas;
 // export const databaseId = "e649f6c751994c0ea85ac6cd6495e7f4";
 // export const pageId = "eb889e735554462ca107e68cd7ace229";
 
-export const databaseId = "4c699e3e758d41248751780fefed7d23";
+export const databaseId = "e649f6c751994c0ea85ac6cd6495e7f4";
 // export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";
 
 export const getStaticPaths = async () => {
