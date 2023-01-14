@@ -73,9 +73,9 @@ function index({ posts }) {
                   <h3 className="pl-2 text-xl ">
                     <Text text={post.properties.Name.title} />
                   </h3>
-                  <div className="  flex-grow h-[90px] p-3 ">
+                  {/* <div className="  flex-grow h-[90px] p-3 ">
                     <Text text={post.properties.Text.rich_text} />
-                  </div>
+                  </div> */}
                   <div className="flex items-center  w-[60px]">
                     {Object.values(post.properties).map((property) => {
                       if (property?.type == "multi_select") {
