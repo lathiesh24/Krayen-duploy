@@ -1,11 +1,18 @@
 import { Dialog, Transition } from '@headlessui/react'
+import { useRouter } from 'next/router';
 import { Fragment, useState } from 'react'
+import { getDatabase } from '../library/notion';
 
 
 
 export default function MyModal() {
+  const router =useRouter();
   let [isOpen, setIsOpen] = useState(false);
-  let [subModalIsOpen,setSubModalIsOpen] = useState(false)
+  let [subModalIsOpen,setSubModalIsOpen] = useState(false);
+  const [pageName,setPageName]=useState('');
+  const [pageUrl,setPageUrl]=useState('');
+  const [pageId,setPageId]=useState('');
+  const [databaseId,setDatabaseId]=useState('')
 
   function closeModal() {
     setIsOpen(false)
@@ -17,10 +24,41 @@ export default function MyModal() {
 
   function submodalclose(){
     setSubModalIsOpen(false)
+    setIsOpen(true)
   }
 
   function submodalopen(){
     setSubModalIsOpen(true)
+    setIsOpen(false)
+  }
+
+  function closeAll(){
+    setIsOpen(false)
+    setSubModalIsOpen(false)
+  }
+  function validatePageUrl(){
+    const path = pageUrl.split('/')[3]
+    console.log(path)
+    if(path?.split('-')){
+      const Id=path?.split('-')[1]
+      console.log('pageid',Id)
+      console.log(Id?.length == 32)
+            
+    }
+    if(path?.split('?')) {
+    const Id= path.split('?')[0] 
+    console.log(Id);
+    
+    async function checkData(){
+      const database = await getDatabase(Id); 
+      if (database){
+        return router.push(`/${Id}`)
+      }
+    }
+    checkData()
+    
+    // window.location.replace(`/pages/table/${pageId}`)
+} 
   }
   const solutions = [
     {
@@ -124,16 +162,35 @@ export default function MyModal() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-            <Dialog.Panel className="absolute left-1/2 z-30 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl">
-                <div className='flex bg-white md:w-[800px] md:min-h-[650px] items-start justify-center p-5 rounded-sm'>
-                    <div className='flex flex-col '>
-                    <span className="w-0.5 h-[520px] z-25 absolute left-[75px] top-[78px] bg-gray-200" />
-                    <span className='bg-gray-200 rounded-full px-5 p-3 mr-2 mt-6 absolute top-[40px] left-[52px] z-30 font-semibold'>1</span>
-                    <span className='bg-gray-200 rounded-full px-5 p-3 mr-2 mt-6 absolute top-[280px] left-[52px] z-30 font-semibold'>2</span>
-                    <span className='bg-gray-200 rounded-full px-5 p-3 mr-2 mt-6 absolute top-[540px] left-[52px] z-30 font-semibold'>3</span>
+            <Dialog.Panel className="absolute top-[100px] mb-[120px] left-1/2 z-30 min-w-[400px] mt-3 sm:max-w-[600px] justify-center -translate-x-1/2 transform md:max-w-xl sm:px-0 lg:max-w-4xl xl:w-[1200px]">
+                <div className='flex flex-col rounded-lg bg-white lg:w-full mb-[100px] min-h-[80vh] sm:w-full md:w-full xl:w-full lg:p-[100px] p-[30px] sm:p-[40px] overflow-y-auto'>
+                  <div className='flex flex-col'>
+                    <span className='flex font-bold lg:text-xl'>Step 1</span>
+                    <span className=' flex font-medium lg:ml-[40px] mt-4 lg:text-lg'>Do share your Notion page to public</span>
+                    <img alt='' src='https://notaku.so/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fnotion_page_copy_url.0c316447.png&w=750&q=75' className=' min-h-[160px] sm:w-[420px] lg:w-[500px] xl:ml-[50px] lg:h-[280px]'/>
+                  </div>
+                  <div className='mt-10'>
+                  <span className='flex font-bold lg:text-xl'>Step 2</span>
+                    <span className='flex font-medium lg:ml-[40px] mt-4 lg:text-lg max-w-[600px]'>Click the button below in order to select and authorize your notion page. Ignore if you have done it already.</span>
+                    <div className='mt-4'>
+                      <button className=' text-white bg-black rounded-md p-2'>Go to my notion page</button>
                     </div>
-                    <div className=' '>
-                        ughh
+                  </div>
+                  <div className='flex flex-col mt-10'>
+                    <span className=' font-bold flex lg:text-xl'>Site name</span>
+                    <div className='mt-2 flex'>
+                      <input type='text' className=' min-w-[280px] flex-grow lg:w-[500px] max-w-[650px] border-2 border-gray-200 outline-none rounded-md p-2'/>
+                    </div>
+                  </div>
+                  <div className='flex flex-col mt-10'>
+                    <span className=' font-bold flex lg:text-xl'>Notion page URL</span>
+                    <div className='mt-2 flex'>
+                      <input type='text' onChange={e => setPageUrl(e.target.value)} className=' min-w-[280px] flex-grow lg:w-[400px] max-w-[650px] border-2 border-gray-200 outline-none rounded-md p-2' placeholder=''/>
+                    </div>
+                  </div>
+                  <div className='mt-10 flex justify-center'>
+                      <button className=' text-white bg-black rounded-md p-2' onClick={closeAll}>Cancel</button>
+                      <button className=' text-white bg-black rounded-md p-2 ml-[30px]' onClick={validatePageUrl}>Create Website</button>
                     </div>
                 </div>
             </Dialog.Panel>

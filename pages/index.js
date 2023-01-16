@@ -41,6 +41,7 @@ export const Text = ({ text }) => {
     );
   });
 };
+// function de
 function index({ posts }) {
   console.log("posts", posts);
 
