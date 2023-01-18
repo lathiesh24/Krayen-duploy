@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Googlemapsembed } from "../components/Googlemapsembed";
+import { Spotifyembed } from "../components/Spotifyembed";
 import { Tweetembed } from "../components/Tweetembed";
 import { getPage, getBlocks, getDatabase } from "../library/notion";
 
@@ -216,7 +217,7 @@ function pagedatas({ page, pageblock, blockchild }) {
       const spliturl = url.split('/');
       console.log('url',spliturl)
       if(spliturl[2] === 'open.spotify.com'){
-        return console.log('spotify')
+        return <Spotifyembed trackUrl={spliturl}/>
       } else if(spliturl[2] === 'twitter.com'){
         return <Tweetembed tweet={spliturl}/>
       } else if(spliturl[2] === 'goo.gl'){
