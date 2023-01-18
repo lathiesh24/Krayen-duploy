@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { Googlemapsembed } from "../components/Googlemapsembed";
+import { Tweetembed } from "../components/Tweetembed";
 import { getPage, getBlocks, getDatabase } from "../library/notion";
 
 function pagedatas({ page, pageblock, blockchild }) {
-  console.log("page", page);
+  // console.log("page", page);
   console.log("pageblock", pageblock);
   // console.log("blockchild", blockchild);
 
@@ -17,13 +19,13 @@ function pagedatas({ page, pageblock, blockchild }) {
   const rows = something.map((row) => {
     return row.map((cell) => cell);
   });
-  console.log("type", rows);
+  // console.log("type", rows);
 
   console.log("something", definedBlock);
   const datasOfPage = pageblock;
   const items = datasOfPage || [];
   const codeBlocks = items.map((block) => {
-    console.log("bloc", block?.heading_3?.rich_text[0]?.text?.content);
+    // console.log("bloc", block?.heading_3?.rich_text[0]?.text?.content);
     if (block.type == "callout") {
       return (
         <div
@@ -144,10 +146,10 @@ function pagedatas({ page, pageblock, blockchild }) {
               >
                 <path
                   d="M9 5L5 9L9 13"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  // stroke="currentColor"
+                  // stroke-width="2"
+                  // stroke-linecap="round"
+                  // stroke-linejoin="round"
                 />
               </svg>
               <span className="ml-2 text-lg font-medium leading-5 text-gray-900">
@@ -186,7 +188,7 @@ function pagedatas({ page, pageblock, blockchild }) {
           key={block?.id}
           className={`text-${colorToDo}-400 mt-5  ${classNameCheck} leading-relaxed mb-4`}
         >
-          <input type="checkbox" checked={block?.to_do?.checked} />
+          <input type="checkbox" checked={block?.to_do?.checked} readOnly={true} />
           <span className=" text-lg ml-2">{block?.to_do?.rich_text[0]?.text?.content}</span>
         </div>
       );
@@ -209,7 +211,20 @@ function pagedatas({ page, pageblock, blockchild }) {
               <img src={`${block.image.file.url}`} alt="" />               
             </div>
         )
-    } else if (block && block.type === "paragraph" && block.paragraph && block.paragraph.rich_text && block.paragraph.rich_text[0] && block.paragraph.rich_text[0].type === "equation" && block.paragraph.rich_text[0].equation) {
+    } else if (block.type == "embed"){
+      const url = block?.embed?.url
+      const spliturl = url.split('/');
+      console.log('url',spliturl)
+      if(spliturl[2] === 'open.spotify.com'){
+        return console.log('spotify')
+      } else if(spliturl[2] === 'twitter.com'){
+        return <Tweetembed tweet={spliturl}/>
+      } else if(spliturl[2] === 'goo.gl'){
+        return <Googlemapsembed place={spliturl}/>
+      }
+    }
+      
+    else if (block && block.type === "paragraph" && block.paragraph && block.paragraph.rich_text && block.paragraph.rich_text[0] && block.paragraph.rich_text[0].type === "equation" && block.paragraph.rich_text[0].equation) {
     return (
         <div>
             {block.paragraph.rich_text[0].equation.expression}      

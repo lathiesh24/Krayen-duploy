@@ -27,10 +27,11 @@
     "react-dom": "18.2.0",
     "react-notion-x": "^6.15.7",
     "react-router-dom": "^6.4.3",
+    "react-twitter-embed": "^4.0.4",
     "tiny-request-router": "^1.2.2"
   },
   "devDependencies": {
-    "@types/react": "18.0.25",
+    "@types/react": "^15.0.0",
     "autoprefixer": "^10.4.12",
     "eslint": "8.25.0",
     "eslint-config-next": "12.3.1",
