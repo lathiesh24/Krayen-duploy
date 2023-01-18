@@ -44,7 +44,7 @@ function pagedatas({ page, pageblock, blockchild }) {
     } else if (block.type == "code") {
       return (
         <pre
-          className={`p-4 overflow-x-auto mt-5 text-black bg-[#F2F2F2] rounded-md`}
+          className={`p-4 overflow-x-auto mt-5 text-black bg-[#F2F2F2] `}
           key={block.id}
         >
           <div className="flex justify-end">
