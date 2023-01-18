@@ -18,7 +18,7 @@ export const Text = ({ text }) => {
     return null;
   }
   return text.map((value) => {
-    console.log("value", value);
+    // console.log("value", value);
     const {
       annotations: { bold, code, color, italic, strikethrough, underline },
     } = value;
@@ -41,6 +41,7 @@ export const Text = ({ text }) => {
     );
   });
 };
+// function de
 function index({ posts }) {
   console.log("posts", posts);
 
@@ -58,10 +59,10 @@ function index({ posts }) {
         return (
           <li
             key={post.id}
-            className="flex flex-col max-w-[750px] rounded-lg bg-white shadow-lg mb-20 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 hover:drop-shadow-2xl duration-300 cursor-pointer p-5"
+            className="flex flex-col md:w-[650px] max-w-[750px] rounded-lg bg-white shadow-lg mb-20 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 hover:drop-shadow-2xl duration-300 cursor-pointer p-5"
           >
             <Link className="" href={`/${post.id}`}>
-              <div className="flex max-h-[210px]">
+              <div className="flex  max-h-[210px]">
                 <div className="bg-gray-600 md:w-[280px] rounded-md">
                   <img
                     src={post?.cover?.external?.url}
@@ -69,21 +70,21 @@ function index({ posts }) {
                     className="min-w-[280px] min-h-[210px] max-w-[280px] max-h-[210px] object-cover rounded-2xl"
                   />
                 </div>
-                <div className="ml-3">
-                  <h3 className="pl-2 font-bold ">
+                <div className="ml-3 md:max-w-[300px]">
+                  <h3 className="pl-2 text-xl ">
                     <Text text={post.properties.Name.title} />
                   </h3>
                   <div className="  flex-grow h-[90px] p-3 ">
                     <Text text={post.properties.Text.rich_text} />
                   </div>
-                  <div className="">
+                  <div className="flex items-center  w-[60px]">
                     {Object.values(post.properties).map((property) => {
                       if (property?.type == "multi_select") {
                         const multidata = property?.multi_select?.map(
                           (values) => {
-                            console.log("values", values);
+                            // console.log("values", values);
                             return (
-                              <div className="cursor-pointer m-2 pl-2 pr-2 pb-1 min-w-[50px]  bg-[#89cff0] rounded-sm">
+                              <div className="cursor-pointer m-2 pl-2 pr-2 pb-1 w-full  bg-[#89cff0] rounded-sm">
                                 {values?.name}
                               </div>
                             );
@@ -109,7 +110,7 @@ export default index;
 export const getStaticProps = async () => {
   const database = await getDatabase(databaseId);
   //const database =await getBlocks(pageId);
-  console.log("dataaaaaa", database);
+  // console.log("dataaaaaa", database);
   return {
     props: {
       posts: database,

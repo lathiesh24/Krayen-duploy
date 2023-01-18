@@ -4,7 +4,7 @@ import { getPage, getBlocks, getDatabase } from "../library/notion";
 function pagedatas({ page, pageblock, blockchild }) {
   console.log("page", page);
   console.log("pageblock", pageblock);
-  console.log("blockchild", blockchild);
+  // console.log("blockchild", blockchild);
 
   const datasOFBlock = blockchild;
   const definedBlock = datasOFBlock || [];
@@ -28,7 +28,7 @@ function pagedatas({ page, pageblock, blockchild }) {
       return (
         <div
           key={block?.id}
-          className="px-4 py-2 text-black bg-yellow-200 rounded-xl"
+          className="px-4 py-3 mt-5 text-black bg-[#F2F2F2] rounded-md"
         >
           <div>
             {" "}
@@ -44,10 +44,13 @@ function pagedatas({ page, pageblock, blockchild }) {
     } else if (block.type == "code") {
       return (
         <pre
-          className={`p-4 overflow-x-auto text-white bg-gray-800 rounded-md`}
+          className={`p-4 overflow-x-auto mt-5 text-black bg-[#F2F2F2] `}
           key={block.id}
         >
-          {block?.code?.rich_text[0]?.text?.content}
+          <div className="flex justify-end">
+            {block?.code.language}
+          </div>
+          <div> {block?.code?.rich_text[0]?.text?.content}</div>
         </pre>
       );
 
@@ -56,7 +59,7 @@ function pagedatas({ page, pageblock, blockchild }) {
       return (
         <div
           key={block?.id}
-          className="text-xl font-bold text-gray-800 capitalize"
+          className="text-3xl mt-5 font-medium text-gray-800 capitalize"
         >
           {block?.heading_3?.rich_text[0]?.text?.content}
         </div>
@@ -65,7 +68,7 @@ function pagedatas({ page, pageblock, blockchild }) {
       return (
         <div
           key={block?.id}
-          className="text-2xl font-bold text-gray-800 capitalize "
+          className="text-4xl mt-4 font-semibold text-gray-800 capitalize "
         >
           {block?.heading_2?.rich_text[0]?.text?.content}
         </div>
@@ -74,7 +77,7 @@ function pagedatas({ page, pageblock, blockchild }) {
       return (
         <div
           key={block?.id}
-          className="text-3xl font-bold leading-tight capitalize"
+          className="text-6xl mt-5 font-bold leading-tight capitalize "
         >
           {block?.heading_1?.rich_text[0]?.text?.content}
         </div>
@@ -93,7 +96,7 @@ function pagedatas({ page, pageblock, blockchild }) {
       return (
         <div
           key={block?.id}
-          className={`max-w-full w-full text-lg white-space-pre-wrap word-break-break-word caret-color-${colorPara}-500 p-3`}
+          className={`max-w-full mt-5 w-full text-lg white-space-pre-wrap word-break-break-word caret-color-${colorPara}-500 p-3`}
         >
           {block?.paragraph?.rich_text[0]?.text?.content}
         </div>
@@ -108,7 +111,7 @@ function pagedatas({ page, pageblock, blockchild }) {
       return (
         <div
           key={block?.id}
-          className={`w-full caret-color-${colorQuote}-500 p-3 max-w-full text-lg border-gray-800 white-space-pre-wrap word-break-break-word text-md border-x-4`}
+          className={`w-full mt-5 caret-color-${colorQuote}-500 p-3 max-w-full text-lg border-gray-800 white-space-pre-wrap word-break-break-word text-md border-l-4`}
         >
           {block?.quote?.rich_text[0]?.text?.content}
         </div>
@@ -177,19 +180,19 @@ function pagedatas({ page, pageblock, blockchild }) {
       }, [block]);
       const classNameCheck =
         block?.to_do?.checked == true ? "line-through" : "";
-      console.log("todo", classNameCheck);
+      // console.log("todo", classNameCheck);
       return (
         <div
           key={block?.id}
-          className={`text-${colorToDo}-400 font-medium  ${classNameCheck} leading-relaxed mb-4`}
+          className={`text-${colorToDo}-400 mt-5  ${classNameCheck} leading-relaxed mb-4`}
         >
           <input type="checkbox" checked={block?.to_do?.checked} />
-          {block?.to_do?.rich_text[0]?.text?.content}
+          <span className=" text-lg ml-2">{block?.to_do?.rich_text[0]?.text?.content}</span>
         </div>
       );
     } else if (block.type == "numbered_list_item") {
       return (
-        <li className="list-decimal text-md">
+        <li className="list-decimal text-md mt-5">
           {block.numbered_list_item.rich_text[0].text.content}
         </li>
       );
@@ -246,7 +249,11 @@ function pagedatas({ page, pageblock, blockchild }) {
     }
   });
 
-  return <div>{codeBlocks}</div>;
+  return (
+    <div className="flex justify-center items-center">
+      <div className=" w-[800px]">{codeBlocks}</div>;
+    </div>
+  )
 }
 
 export default pagedatas;
@@ -255,7 +262,7 @@ export default pagedatas;
 // export const pageId = "eb889e735554462ca107e68cd7ace229";
 
 export const databaseId = "4c699e3e758d41248751780fefed7d23";
-export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";
+// export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";
 
 export const getStaticPaths = async () => {
   const database = await getDatabase(databaseId);
@@ -267,38 +274,21 @@ export const getStaticPaths = async () => {
 
 // export const blockid = "2775902b-03c4-4e75-b06d-2f5ae5560761";
 
-export const getStaticProps = async () => {
+export const getStaticProps = async (context) => {
+  console.log('context',context)
+  const pageId = context.params.id;
   const pageblock = await getBlocks(pageId);
   const pagedata = await getPage(pageId);
-  //const child = await getBlocks(blockid);
+  // const child = await getBlocks(blockid);
   //    console.log('dataaaaaa', pageblock);
   //    console.log("0hjh",pagedata);
   return {
     props: {
       page: pagedata,
       pageblock: pageblock,
-      //blockchild: child,
+      // blockchild: child,
     },
     revalidate: 1,
   };
 };
 
-//  export const blockd = 'a2f8852f-0bee-4c1e-9ba2-fcdd7c52eab6'
-
-// export const getStaticProps = async ({ params }) => {
-//    const pageblock = await getBlocks(pageId);
-//    const pagedata = await getPage(pageId);
-//    const childPromises = blockId.filter(id => id).map(id => getBlocks(id));
-//    const child = await Promise.all(childPromises);
-//   // const child = await getBlocks(blockId);
-// //    console.log('dataaaaaa', pageblock);
-// //    console.log("0hjh",pagedata);
-//   return {
-//     props: {
-//       page:pagedata,
-//       pageblock:pageblock,
-//       blockchild:child
-//     },
-//     revalidate: 1,
-//   };
-// };
