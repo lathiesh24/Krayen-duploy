@@ -1,23 +1,23 @@
 import { useEffect, useState } from "react";
 import { getPage, getBlocks, getDatabase } from "../library/notion";
 
-function pagedatas({ page, pageblock, blockchild }) {
+function pagedatas({ page, pageblock, child }) {
   console.log("page", page);
   console.log("pageblock", pageblock);
-  // console.log("blockchild", blockchild);
+   console.log("blockchild", child);
 
-  const datasOFBlock = blockchild;
+  const datasOFBlock = child;
   const definedBlock = datasOFBlock || [];
 
-  const something = definedBlock.map((child) => {
-    return child.type === "table_row"
-      ? child?.table_row?.cells.map((item) => item[0]?.text.content)
-      : "";
-  });
-  const rows = something.map((row) => {
-    return row.map((cell) => cell);
-  });
-  console.log("type", rows);
+  // const something = definedBlock.map((child) => {
+  //   return child.type === "table_row"
+  //     ? child?.table_row?.cells.map((item) => item[0]?.text.content)
+  //     : "";
+  // });
+  // const rows = something.map((row) => {
+  //   return row.map((cell) => cell);
+  // });
+  // console.log("type", rows);
 
   console.log("something", definedBlock);
   const datasOfPage = pageblock;
@@ -44,7 +44,7 @@ function pagedatas({ page, pageblock, blockchild }) {
     } else if (block.type == "code") {
       return (
         <pre
-          className={`p-4 overflow-x-auto mt-5 text-black bg-[#F2F2F2] rounded-md`}
+          className={`p-4 overflow-x-auto mt-5 text-black bg-[#F2F2F2] `}
           key={block.id}
         >
           <div className="flex justify-end">
@@ -205,14 +205,9 @@ function pagedatas({ page, pageblock, blockchild }) {
     </div>
   )
 }
-
 export default pagedatas;
 
-// export const databaseId = "e649f6c751994c0ea85ac6cd6495e7f4";
-// export const pageId = "eb889e735554462ca107e68cd7ace229";
-
-export const databaseId = "4c699e3e758d41248751780fefed7d23";
-// export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";
+export const databaseId = "e649f6c751994c0ea85ac6cd6495e7f4";
 
 export const getStaticPaths = async () => {
   const database = await getDatabase(databaseId);
@@ -222,23 +217,31 @@ export const getStaticPaths = async () => {
   };
 };
 
-export const blockid = "2775902b-03c4-4e75-b06d-2f5ae5560761";
-
 export const getStaticProps = async (context) => {
-  console.log('context',context)
   const pageId = context.params.id;
   const pageblock = await getBlocks(pageId);
   const pagedata = await getPage(pageId);
-  // const child = await getBlocks(blockid);
-  //    console.log('dataaaaaa', pageblock);
-  //    console.log("0hjh",pagedata);
+  let child = [];
+  for (let i=0; i<pageblock.length; i++) {
+    if (pageblock[i].parent.page_id === pageId && pageblock[i].has_children) {
+        child.push(...await getBlocks(pageblock[i].id));
+    }
+  }
+
+  console.log('child data:', child);
+
   return {
     props: {
       page: pagedata,
       pageblock: pageblock,
-      // blockchild: child,
+      child: child,
     },
     revalidate: 1,
   };
 };
 
+
+//export const pageId = "eb889e735554462ca107e68cd7ace229";
+
+//export const databaseId = "4c699e3e758d41248751780fefed7d23";
+// export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";

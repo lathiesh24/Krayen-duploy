@@ -1,7 +1,8 @@
 import { Client } from "@notionhq/client";
 
 const notion = new Client({
-  auth: "secret_MnsWLzCz8ReGab2uZoawvLuV3QjQz89DcxIbcMaSPyb"
+  //auth: "secret_MnsWLzCz8ReGab2uZoawvLuV3QjQz89DcxIbcMaSPyb"
+  auth: "secret_PogtgGAniUhgDZoNajQ3mceK8EUceA1Muhe5dX44zrf"
 });
 
 export const getDatabase = async (databaseId) => {
