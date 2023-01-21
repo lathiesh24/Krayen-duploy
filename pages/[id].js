@@ -5,12 +5,13 @@ import { Spotifyembed } from "../components/Spotifyembed";
 import { Tweetembed } from "../components/Tweetembed";
 import { getPage, getBlocks, getDatabase } from "../library/notion";
 
-function pagedatas({ page, pageblock, blockchild }) {
-  // console.log("page", page);
+function pagedatas({ page, pageblock, child }) {
+   
+  console.log("page", child);
   console.log("pageblock", pageblock);
-  console.log("blockchild", blockchild);
 
-  const datasOFBlock = blockchild;
+
+  const datasOFBlock = child;
   const definedBlock = datasOFBlock || [];
 
   const something = definedBlock.map((child) => {
@@ -27,7 +28,7 @@ function pagedatas({ page, pageblock, blockchild }) {
   // console.log("type", rows);
 
 
-  console.log("something", definedBlock);
+  console.log("something", something);
   const datasOfPage = pageblock;
   const items = datasOfPage || [];
   const codeBlocks = items.map((block) => {
@@ -303,8 +304,8 @@ export const databaseId = "e649f6c751994c0ea85ac6cd6495e7f4";
 // export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";
 
 
-export const databaseId = "4c699e3e758d41248751780fefed7d23";
-export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";
+// export const databaseId = "4c699e3e758d41248751780fefed7d23";
+// export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";
 
 export const getStaticPaths = async () => {
   const database = await getDatabase(databaseId);
