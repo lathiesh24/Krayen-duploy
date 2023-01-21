@@ -31,6 +31,5 @@ export const getBlocks = async (blockId) => {
     }
     cursor = next_cursor;
   }
-  console.log('blocksssss',blocks)
   return blocks;
 };

@@ -7,9 +7,9 @@ import { getBlocks, getDatabase, getPage } from "../library/notion";
 // export const databaseId = "4c699e3e758d41248751780fefed7d23";
 // export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";
 
-
 export const databaseId = 'e649f6c751994c0ea85ac6cd6495e7f4';
 //export const pageId='4606f5e400c34d68b8a0353328ad0c3c'
+
 // export const databaseId = "e649f6c751994c0ea85ac6cd6495e7f4";
 // export const pageId = "eb889e735554462ca107e68cd7ace229";
 
@@ -18,7 +18,9 @@ export const Text = ({ text }) => {
     return null;
   }
   return text.map((value) => {
+
     // console.log("value", value);
+
     const {
       annotations: { bold, code, color, italic, strikethrough, underline },
     } = value;
@@ -41,11 +43,12 @@ export const Text = ({ text }) => {
     );
   });
 };
-// function de
+
 function index({ posts }) {
   console.log("posts", posts);
 
   return (
+
     <div
       className="flex flex-col items-center justify-center min-h-screen max-w-screen-2xl"
     >
@@ -58,11 +61,12 @@ function index({ posts }) {
         });
         return (
           <li
-            key={post?.id}
-            className="flex flex-col md:w-[650px] max-w-[750px] rounded-lg bg-white shadow-lg mb-20 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 hover:drop-shadow-2xl duration-300 cursor-pointer p-5"
+
+            key={post.id}
+            className="flex flex-col max-w-[750px] rounded-lg bg-white shadow-lg mb-20 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 hover:drop-shadow-2xl duration-300 cursor-pointer p-5"
           >
-            <a className="" href={`/${post.id}`}  >
-              <div className="flex  max-h-[210px]" >
+            <Link className="" href={`/${post.id}`}>
+              <div className="flex max-h-[210px]">           \
                 <div className="bg-gray-600 md:w-[280px] rounded-md">
                   <img
                     src={post?.cover?.external?.url}
@@ -70,6 +74,7 @@ function index({ posts }) {
                     className="min-w-[280px] min-h-[210px] max-w-[280px] max-h-[210px] object-cover rounded-2xl"
                   />
                 </div>
+
                 <div className="ml-3 md:max-w-[300px]">
                   <h3 className="pl-2 text-xl ">
                     <Text text={post?.properties?.Name?.title} key={post?.properties?.Name?.id}/>
@@ -97,7 +102,7 @@ function index({ posts }) {
                   <p className="p-3 ">{date}</p>
                 </div>
               </div>
-            </a>
+            </Link>
           </li>
         );
       })}
@@ -110,7 +115,9 @@ export default index;
 export const getStaticProps = async () => {
   const database = await getDatabase(databaseId);
   //const database =await getBlocks(pageId);
+
   // console.log("dataaaaaa", database);
+
   return {
     props: {
       posts: database,

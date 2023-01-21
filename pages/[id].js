@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import { Googlemapsembed } from "../components/Googlemapsembed";
 import { Spotifyembed } from "../components/Spotifyembed";
 import { Tweetembed } from "../components/Tweetembed";
@@ -15,18 +16,24 @@ function pagedatas({ page, pageblock, blockchild }) {
   const something = definedBlock.map((child) => {
     return child.type === "table_row"
       ? child?.table_row?.cells.map((item) => item[0]?.text.content)
+
       : ""; 
+
   });
   const rows = something.map((row) => {
     return row.map((cell) => cell);
   });
+
   // console.log("type", rows);
+
 
   console.log("something", definedBlock);
   const datasOfPage = pageblock;
   const items = datasOfPage || [];
   const codeBlocks = items.map((block) => {
+
     console.log("bloc",block?.heading_3?.rich_text.map((item) => item?.text?.content));
+
     if (block.type == "callout") {
       return (
         <div
@@ -53,6 +60,7 @@ function pagedatas({ page, pageblock, blockchild }) {
           {block?.code?.rich_text.map((item) => item?.text?.content)}
         </pre>
       );
+
     } else if (block.type == "heading_3") {
       return (
         <div
@@ -111,9 +119,11 @@ function pagedatas({ page, pageblock, blockchild }) {
       );
       const [open, setOpen] = useState(false);
 
+
       const handleToggle = () => {
         setOpen(!open);
       };
+
 
        return (
         <div
@@ -179,6 +189,7 @@ function pagedatas({ page, pageblock, blockchild }) {
           {block?.to_do?.rich_text.map((item) => item?.text?.content)}
         </div>
       );
+
     } else if (block.type == "numbered_list_item") {
       return (
         <li className="list-decimal text-md">
@@ -187,6 +198,7 @@ function pagedatas({ page, pageblock, blockchild }) {
           )}
         </li>
       );
+
     } else if (block.type == "video" ) {
         return (
             <div>
@@ -277,6 +289,7 @@ function pagedatas({ page, pageblock, blockchild }) {
     // }
   });
 
+
   return (
     <div className="flex items-center justify-center">
       <div className=" w-[800px]">{codeBlocks}</div>;
@@ -285,9 +298,13 @@ function pagedatas({ page, pageblock, blockchild }) {
 }
 export default pagedatas;
 
+
 export const databaseId = "e649f6c751994c0ea85ac6cd6495e7f4";
 // export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";
 
+
+export const databaseId = "4c699e3e758d41248751780fefed7d23";
+export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";
 
 export const getStaticPaths = async () => {
   const database = await getDatabase(databaseId);
@@ -296,6 +313,7 @@ export const getStaticPaths = async () => {
     fallback: true,
   };
 };
+
 
 
 export const getStaticProps = async (context) => {
@@ -311,6 +329,7 @@ export const getStaticProps = async (context) => {
 
   console.log('child data:', child);
 
+
   return {
     props: {
       page: pagedata,
@@ -320,4 +339,26 @@ export const getStaticProps = async (context) => {
     revalidate: 1,
   };
 };
+
+
+//  export const blockd = 'a2f8852f-0bee-4c1e-9ba2-fcdd7c52eab6'
+
+// export const getStaticProps = async ({ params }) => {
+//    const pageblock = await getBlocks(pageId);
+//    const pagedata = await getPage(pageId);
+//    const childPromises = blockId.filter(id => id).map(id => getBlocks(id));
+//    const child = await Promise.all(childPromises);
+//   // const child = await getBlocks(blockId);
+// //    console.log('dataaaaaa', pageblock);
+// //    console.log("0hjh",pagedata);
+//   return {
+//     props: {
+//       page:pagedata,
+//       pageblock:pageblock,
+//       blockchild:child
+//     },
+//     revalidate: 1,
+//   };
+// };
+
 
