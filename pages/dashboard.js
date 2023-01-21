@@ -1,4 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react'
+import axios from 'axios';
 import { useRouter } from 'next/router';
 import { Fragment, useState } from 'react'
 import { getDatabase } from '../library/notion';
@@ -50,10 +51,10 @@ export default function MyModal() {
     console.log(Id);
     
     async function checkData(){
-      const database = await getDatabase(Id); 
-      if (database){
-        return router.push(`/${Id}`)
-      }
+      const getdata = await axios.post(`/api/notion`, {
+        databaseId:Id
+       })
+       console.log('getdata',getdata)
     }
     checkData()
     

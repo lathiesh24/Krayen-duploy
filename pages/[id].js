@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
 import { Googlemapsembed } from "../components/Googlemapsembed";
+import Loomembed from "../components/Loomembed";
 import { Spotifyembed } from "../components/Spotifyembed";
 import { Tweetembed } from "../components/Tweetembed";
+import Youtubeembed from "../components/Youtubeembed";
 import { getPage, getBlocks, getDatabase } from "../library/notion";
+import dynamic from 'next/dynamic'
+
 
 function pagedatas({ page, pageblock, blockchild }) {
   // console.log("page", page);
   console.log("pageblock", pageblock);
   // console.log("blockchild", blockchild);
-
+  const script = process.env.LOOM_SCRIPT
   const datasOFBlock = blockchild;
   const definedBlock = datasOFBlock || [];
 
@@ -215,13 +219,27 @@ function pagedatas({ page, pageblock, blockchild }) {
     } else if (block.type == "embed"){
       const url = block?.embed?.url
       const spliturl = url.split('/');
-      console.log('url',spliturl)
+  
       if(spliturl[2] === 'open.spotify.com'){
         return <Spotifyembed trackUrl={spliturl}/>
       } else if(spliturl[2] === 'twitter.com'){
         return <Tweetembed tweet={spliturl}/>
       } else if(spliturl[2] === 'goo.gl'){
         return <Googlemapsembed place={spliturl}/>
+      }
+    } else if (block?.type == 'video' && block?.video?.type == 'external'){
+      const videolink = block?.video?.external?.url
+      const splitVidLink = videolink?.split('/');
+      if(splitVidLink[2] === 'www.youtube.com'){
+        return <Youtubeembed vidUrl={splitVidLink}/>
+      } else if(splitVidLink[2] === 'www.loom.com'){
+        // return 
+        return (
+          <>
+            <script src={script}></script>
+            <Loomembed loomUrl={splitVidLink} />
+          </>
+        )
       }
     }
       
