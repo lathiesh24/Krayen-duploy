@@ -54,7 +54,7 @@ function pagedatas({ page, pageblock, blockchild }) {
       return (
         <div
           key={block?.id}
-          className="text-xl font-bold text-gray-800 capitalize"
+          className="mt-5 text-3xl font-medium text-gray-800 capitalize"
         >
           {block?.heading_3?.rich_text.map((item) => item?.text?.content)}
         </div>
@@ -211,11 +211,17 @@ function pagedatas({ page, pageblock, blockchild }) {
     // }
   });
 
-  return <div>{codeBlocks}</div>;
+  return (
+    <div className="flex items-center justify-center">
+      <div className=" w-[800px]">{codeBlocks}</div>;
+    </div>
+  )
 }
 export default pagedatas;
 
 export const databaseId = "e649f6c751994c0ea85ac6cd6495e7f4";
+// export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";
+
 
 export const getStaticPaths = async () => {
   const database = await getDatabase(databaseId);
