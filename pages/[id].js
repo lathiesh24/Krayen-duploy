@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
+import { Googlemapsembed } from "../components/Googlemapsembed";
+import { Spotifyembed } from "../components/Spotifyembed";
+import { Tweetembed } from "../components/Tweetembed";
 import { getPage, getBlocks, getDatabase } from "../library/notion";
 
 function pagedatas({ page, pageblock, blockchild }) {
-  console.log("page", page);
+  // console.log("page", page);
   console.log("pageblock", pageblock);
   console.log("blockchild", blockchild);
 
@@ -12,12 +15,12 @@ function pagedatas({ page, pageblock, blockchild }) {
   const something = definedBlock.map((child) => {
     return child.type === "table_row"
       ? child?.table_row?.cells.map((item) => item[0]?.text.content)
-      : "";
+      : ""; 
   });
   const rows = something.map((row) => {
     return row.map((cell) => cell);
   });
-  console.log("type", rows);
+  // console.log("type", rows);
 
   console.log("something", definedBlock);
   const datasOfPage = pageblock;
@@ -112,7 +115,7 @@ function pagedatas({ page, pageblock, blockchild }) {
         setOpen(!open);
       };
 
-      return (
+       return (
         <div
           key={block?.id}
           className={`text-${colorToggle}-400 font-medium leading-relaxed mb-4 relative`}
@@ -130,10 +133,10 @@ function pagedatas({ page, pageblock, blockchild }) {
               >
                 <path
                   d="M9 5L5 9L9 13"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  // stroke="currentColor"
+                  // stroke-width="2"
+                  // stroke-linecap="round"
+                  // stroke-linejoin="round"
                 />
               </svg>
               <span className="ml-2 text-lg font-medium leading-5 text-gray-900">
@@ -176,7 +179,7 @@ function pagedatas({ page, pageblock, blockchild }) {
           {block?.to_do?.rich_text.map((item) => item?.text?.content)}
         </div>
       );
-    } else if (block.type === "numbered_list_item") {
+    } else if (block.type == "numbered_list_item") {
       return (
         <li className="list-decimal text-md">
           {block.numbered_list_item.rich_text.map(
@@ -184,6 +187,69 @@ function pagedatas({ page, pageblock, blockchild }) {
           )}
         </li>
       );
+    } else if (block.type == "video" ) {
+        return (
+            <div>
+                {/* <span>{block.video.caption}</span> */}
+                <a href={`${block.video.external.url}`}>{block.video.external.url}</a>
+            </div>
+        )
+    } else if (block.type == "image") {
+        return (
+            <div>
+              <img src={`${block.image.file.url}`} alt="" />               
+            </div>
+        )
+    } else if (block.type == "embed"){
+      const url = block?.embed?.url
+      const spliturl = url.split('/');
+      console.log('url',spliturl)
+      if(spliturl[2] === 'open.spotify.com'){
+        return <Spotifyembed trackUrl={spliturl}/>
+      } else if(spliturl[2] === 'twitter.com'){
+        return <Tweetembed tweet={spliturl}/>
+      } else if(spliturl[2] === 'goo.gl'){
+        return <Googlemapsembed place={spliturl}/>
+      }
+    }
+      
+    else if (block && block.type === "paragraph" && block.paragraph && block.paragraph.rich_text && block.paragraph.rich_text[0] && block.paragraph.rich_text[0].type === "equation" && block.paragraph.rich_text[0].equation) {
+    return (
+        <div>
+            {block.paragraph.rich_text[0].equation.expression}      
+        </div>
+    );
+    }else if (block.type == "bulleted_list_item") {
+      return (
+        <ul className="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
+            <li className="text-md">
+            {block.bulleted_list_item.rich_text[0].text.content}
+            </li>
+        </ul>
+      );
+    // }   else if (block.type === "table") {
+    //   return (
+    //     <tbody>
+    //       {block?.table?.has_row_header &&
+    //         something.map((row, i) => (
+    //           <tr key={i}>
+    //             {row.map((cell, j) => (
+    //               <td
+    //                 key={j}
+    //                 className={`border px-4 py-2 text-green-600 ${
+    //                   (j == 0 && block?.table?.has_column_header) ||
+    //                   (i == 0 && block?.table?.has_row_header)
+    //                     ? "font-bold"
+    //                     : ""
+    //                 }`}
+    //               >
+    //                 {cell || ""}
+    //               </td>
+    //             ))}
+    //           </tr>
+    //         ))}
+    //     </tbody>
+    //   );
     }
     // else if (block.type === "table") {
     //   return (
@@ -231,6 +297,7 @@ export const getStaticPaths = async () => {
   };
 };
 
+
 export const getStaticProps = async (context) => {
   const pageId = context.params.id;
   const pageblock = await getBlocks(pageId);
@@ -254,8 +321,3 @@ export const getStaticProps = async (context) => {
   };
 };
 
-
-//export const pageId = "eb889e735554462ca107e68cd7ace229";
-
-//export const databaseId = "4c699e3e758d41248751780fefed7d23";
-// export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";

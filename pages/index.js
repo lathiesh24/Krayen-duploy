@@ -58,11 +58,11 @@ function index({ posts }) {
         });
         return (
           <li
-            key={post.id}
+            key={post?.id}
             className="flex flex-col md:w-[650px] max-w-[750px] rounded-lg bg-white shadow-lg mb-20 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 hover:drop-shadow-2xl duration-300 cursor-pointer p-5"
           >
-            <Link className="" href={`/${post.id}`}>
-              <div className="flex  max-h-[210px]">
+            <a className="" href={`/${post.id}`}  >
+              <div className="flex  max-h-[210px]" >
                 <div className="bg-gray-600 md:w-[280px] rounded-md">
                   <img
                     src={post?.cover?.external?.url}
@@ -72,7 +72,7 @@ function index({ posts }) {
                 </div>
                 <div className="ml-3 md:max-w-[300px]">
                   <h3 className="pl-2 text-xl ">
-                    <Text text={post.properties.Name.title} />
+                    <Text text={post?.properties?.Name?.title} key={post?.properties?.Name?.id}/>
                   </h3>
                   {/* <div className="  flex-grow h-[90px] p-3 ">
                     <Text text={post.properties.Text.rich_text} />
@@ -84,7 +84,7 @@ function index({ posts }) {
                           (values) => {
                             // console.log("values", values);
                             return (
-                              <div className="cursor-pointer m-2 pl-2 pr-2 pb-1 w-full  bg-[#89cff0] rounded-sm">
+                              <div className="cursor-pointer m-2 pl-2 pr-2 pb-1 w-full shadow-lg bg-[#89cff0] rounded-sm" key={values?.id}>
                                 {values?.name}
                               </div>
                             );
@@ -97,7 +97,7 @@ function index({ posts }) {
                   <p className="p-3 ">{date}</p>
                 </div>
               </div>
-            </Link>
+            </a>
           </li>
         );
       })}
