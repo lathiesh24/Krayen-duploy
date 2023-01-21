@@ -1,9 +1,8 @@
 import { Client } from "@notionhq/client";
 
 const notion = new Client({
-  //auth: "secret_CQ7MuONVL1UL1bPJ4FJoXZv7NCC02g5Menr6aEyMox1",
-  // auth: "secret_HarVG4FsHZaDiaTLWwzbxd1c53Pn1PjX04CxzG0lYnV",
-  auth: "secret_MnsWLzCz8ReGab2uZoawvLuV3QjQz89DcxIbcMaSPyb"
+  //auth: "secret_MnsWLzCz8ReGab2uZoawvLuV3QjQz89DcxIbcMaSPyb"
+  auth: "secret_PogtgGAniUhgDZoNajQ3mceK8EUceA1Muhe5dX44zrf"
 });
 
 export const getDatabase = async (databaseId) => {
@@ -15,9 +14,6 @@ export const getDatabase = async (databaseId) => {
 
 export const getPage = async (pageId) => {
   const response = await notion.pages.retrieve({ page_id: pageId });
-  console.log("responsenotlib", response);
-  // const page = await notion.page.get(pageId);
-  // console.log(page);
   return response;
 };
 
