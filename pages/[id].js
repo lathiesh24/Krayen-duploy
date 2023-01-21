@@ -1,34 +1,34 @@
 import { useEffect, useState } from "react";
 import { getPage, getBlocks, getDatabase } from "../library/notion";
 
-function pagedatas({ page, pageblock, child }) {
+function pagedatas({ page, pageblock, blockchild }) {
   console.log("page", page);
   console.log("pageblock", pageblock);
-   console.log("blockchild", child);
+  console.log("blockchild", blockchild);
 
-  const datasOFBlock = child;
+  const datasOFBlock = blockchild;
   const definedBlock = datasOFBlock || [];
 
-  // const something = definedBlock.map((child) => {
-  //   return child.type === "table_row"
-  //     ? child?.table_row?.cells.map((item) => item[0]?.text.content)
-  //     : "";
-  // });
-  // const rows = something.map((row) => {
-  //   return row.map((cell) => cell);
-  // });
-  // console.log("type", rows);
+  const something = definedBlock.map((child) => {
+    return child.type === "table_row"
+      ? child?.table_row?.cells.map((item) => item[0]?.text.content)
+      : "";
+  });
+  const rows = something.map((row) => {
+    return row.map((cell) => cell);
+  });
+  console.log("type", rows);
 
   console.log("something", definedBlock);
   const datasOfPage = pageblock;
   const items = datasOfPage || [];
   const codeBlocks = items.map((block) => {
-    console.log("bloc", block?.heading_3?.rich_text[0]?.text?.content);
+    console.log("bloc",block?.heading_3?.rich_text.map((item) => item?.text?.content));
     if (block.type == "callout") {
       return (
         <div
           key={block?.id}
-          className="px-4 py-3 mt-5 text-black bg-[#F2F2F2] rounded-md"
+          className="px-4 py-2 text-black bg-yellow-200 rounded-xl"
         >
           <div>
             {" "}
@@ -37,69 +37,55 @@ function pagedatas({ page, pageblock, child }) {
                 ? block?.callout?.icon?.emoji
                 : ""}
             </span>
-            {block?.callout?.rich_text[0]?.text?.content}
+            {block?.callout?.rich_text.map((item) => item?.text?.content)}
           </div>
         </div>
       );
     } else if (block.type == "code") {
       return (
         <pre
-          className={`p-4 overflow-x-auto mt-5 text-black bg-[#F2F2F2] `}
+          className={`p-4 overflow-x-auto text-white bg-gray-800 rounded-md`}
           key={block.id}
         >
-          <div className="flex justify-end">
-            {block?.code.language}
-          </div>
-          <div> {block?.code?.rich_text[0]?.text?.content}</div>
+          {block?.code?.rich_text.map((item) => item?.text?.content)}
         </pre>
       );
-
-      //Headings
     } else if (block.type == "heading_3") {
       return (
         <div
           key={block?.id}
-          className="text-3xl mt-5 font-medium text-gray-800 capitalize"
+          className="text-xl font-bold text-gray-800 capitalize"
         >
-          {block?.heading_3?.rich_text[0]?.text?.content}
+          {block?.heading_3?.rich_text.map((item) => item?.text?.content)}
         </div>
       );
     } else if (block.type == "heading_2") {
       return (
         <div
           key={block?.id}
-          className="text-4xl mt-4 font-semibold text-gray-800 capitalize "
+          className="text-2xl font-bold text-gray-800 capitalize "
         >
-          {block?.heading_2?.rich_text[0]?.text?.content}
+          {block?.heading_2?.rich_text.map((item) => item?.text?.content)}
         </div>
       );
     } else if (block.type == "heading_1") {
       return (
         <div
           key={block?.id}
-          className="text-6xl mt-5 font-bold leading-tight capitalize "
+          className="text-3xl font-bold leading-tight capitalize"
         >
-          {block?.heading_1?.rich_text[0]?.text?.content}
+          {block?.heading_1?.rich_text.map((item) => item?.text?.content)}
         </div>
       );
-    }
-
-    //Paragraph
-    else if (block.type == "paragraph") {
+    } else if (block.type == "paragraph") {
       const [colorPara, setColorPara] = useState(
         block?.paragraph?.color == "default" ? "gray" : "black"
       );
       useEffect(() => {
         setColorPara(block?.paragraph?.color);
       }, [block]);
-
       return (
-        <div
-          key={block?.id}
-          className={`max-w-full mt-5 w-full text-lg white-space-pre-wrap word-break-break-word caret-color-${colorPara}-500 p-3`}
-        >
-          {block?.paragraph?.rich_text[0]?.text?.content}
-        </div>
+        <div>{block?.quote?.rich_text.map((item) => item?.text?.content)}</div>
       );
     } else if (block.type == "quote") {
       const [colorQuote, setColorQuote] = useState(
@@ -111,9 +97,9 @@ function pagedatas({ page, pageblock, child }) {
       return (
         <div
           key={block?.id}
-          className={`w-full mt-5 caret-color-${colorQuote}-500 p-3 max-w-full text-lg border-gray-800 white-space-pre-wrap word-break-break-word text-md border-l-4`}
+          className={`w-full caret-color-${colorQuote}-500 p-3 max-w-full text-lg border-gray-800 white-space-pre-wrap word-break-break-word text-md border-x-4`}
         >
-          {block?.quote?.rich_text[0]?.text?.content}
+          {block?.quote?.rich_text.map((item) => item?.text?.content)}
         </div>
       );
     } else if (block.type == "toggle") {
@@ -129,7 +115,7 @@ function pagedatas({ page, pageblock, child }) {
       return (
         <div
           key={block?.id}
-          className={`text-${colorToggle}-400 font-medium mt-5 leading-relaxed mb-4 relative`}
+          className={`text-${colorToggle}-400 font-medium leading-relaxed mb-4 relative`}
         >
           <button
             className="focus:outline-none toggle-button"
@@ -152,7 +138,7 @@ function pagedatas({ page, pageblock, child }) {
               </svg>
               <span className="ml-2 text-lg font-medium leading-5 text-gray-900">
                 {" "}
-                {block?.toggle?.rich_text[0]?.text?.content}
+                {block?.toggle?.rich_text.map((item) => item?.text?.content)}
               </span>
             </div>
           </button>
@@ -180,30 +166,52 @@ function pagedatas({ page, pageblock, child }) {
       }, [block]);
       const classNameCheck =
         block?.to_do?.checked == true ? "line-through" : "";
-      // console.log("todo", classNameCheck);
+      console.log("todo", classNameCheck);
       return (
         <div
           key={block?.id}
-          className={`text-${colorToDo}-400 mt-5  ${classNameCheck} leading-relaxed mb-4`}
+          className={`text-${colorToDo}-400 font-medium  ${classNameCheck} leading-relaxed mb-4`}
         >
           <input type="checkbox" checked={block?.to_do?.checked} />
-          <span className=" text-lg ml-2">{block?.to_do?.rich_text[0]?.text?.content}</span>
+          {block?.to_do?.rich_text.map((item) => item?.text?.content)}
         </div>
       );
     } else if (block.type === "numbered_list_item") {
       return (
-        <li className="list-decimal text-md mt-5">
-          {block.numbered_list_item.rich_text[0].text.content}
+        <li className="list-decimal text-md">
+          {block.numbered_list_item.rich_text.map(
+            (item) => item?.text?.content
+          )}
         </li>
       );
     }
+    // else if (block.type === "table") {
+    //   return (
+    //     <tbody>
+    //       {block?.table?.has_row_header &&
+    //         something.map((row, i) => (
+    //           <tr key={i}>
+    //             {row.map((cell, j) => (
+    //               <td
+    //                 key={j}
+    //                 className={`border px-4 py-2 text-green-600 ${
+    //                   (j == 0 && block?.table?.has_column_header) ||
+    //                   (i == 0 && block?.table?.has_row_header)
+    //                     ? "font-bold"
+    //                     : ""
+    //                 }`}
+    //               >
+    //                 {cell || ""}
+    //               </td>
+    //             ))}
+    //           </tr>
+    //         ))}
+    //     </tbody>
+    //   );
+    // }
   });
 
-  return (
-    <div className="flex justify-center items-center">
-      <div className=" w-[800px]">{codeBlocks}</div>;
-    </div>
-  )
+  return <div>{codeBlocks}</div>;
 }
 export default pagedatas;
 
