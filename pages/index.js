@@ -4,11 +4,11 @@ import Link from "next/link";
 import React, { Fragment } from "react";
 import { getBlocks, getDatabase, getPage } from "../library/notion";
 
-// export const databaseId = "4c699e3e758d41248751780fefed7d23";
-// export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";
+export const databaseId = "4c699e3e758d41248751780fefed7d23";
+export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";
 
-export const databaseId = 'e649f6c751994c0ea85ac6cd6495e7f4';
-//export const pageId='4606f5e400c34d68b8a0353328ad0c3c'
+// export const databaseId = 'e649f6c751994c0ea85ac6cd6495e7f4';
+// //export const pageId='4606f5e400c34d68b8a0353328ad0c3c'
 
 // export const databaseId = "e649f6c751994c0ea85ac6cd6495e7f4";
 // export const pageId = "eb889e735554462ca107e68cd7ace229";
@@ -19,12 +19,12 @@ export const Text = ({ text }) => {
   }
   return text.map((value) => {
 
-    // console.log("value", value);
+    console.log("value", value);
 
     const {
-      annotations: { bold, code, color, italic, strikethrough, underline },
+      annotations: { bold, code, color, italic, strikethrough, underline },text
     } = value;
-    // console.log('text',text)
+    console.log('text',text)
     return (
       <span
         className={[
@@ -36,9 +36,7 @@ export const Text = ({ text }) => {
         ].join(" line-clamp-3")}
         style={color !== "default" ? { color } : {}}
       >
-        {value.text.content}
-        {/* {text.content } */}
-        {/* {text.link == null ? text.content : <a href={text.link.url}>{text.content}</a> } */}
+        {text.link == null ? text.content : <a href={text.link.url}>{text.content}</a> }
       </span>
     );
   });
@@ -66,7 +64,7 @@ function index({ posts }) {
             className="flex flex-col max-w-[750px] rounded-lg bg-white shadow-lg mb-20 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 hover:drop-shadow-2xl duration-300 cursor-pointer p-5"
           >
             <Link className="" href={`/${post.id}`}>
-              <div className="flex max-h-[210px]">           \
+              <div className="flex max-h-[210px]">           
                 <div className="bg-gray-600 md:w-[280px] rounded-md">
                   <img
                     src={post?.cover?.external?.url}
@@ -79,9 +77,9 @@ function index({ posts }) {
                   <h3 className="pl-2 text-xl ">
                     <Text text={post?.properties?.Name?.title} key={post?.properties?.Name?.id}/>
                   </h3>
-                  {/* <div className="  flex-grow h-[90px] p-3 ">
+                  <div className="  flex-grow h-[90px] p-3 ">
                     <Text text={post.properties.Text.rich_text} />
-                  </div> */}
+                  </div>
                   <div className="flex items-center  w-[60px]">
                     {Object.values(post.properties).map((property) => {
                       if (property?.type == "multi_select") {

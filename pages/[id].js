@@ -1,22 +1,21 @@
+import { makeConsoleLogger } from "@notionhq/client/build/src/logging";
 import { useEffect, useState } from "react";
 
 import { Googlemapsembed } from "../components/Googlemapsembed";
-import Loomembed from "../components/Loomembed";
 import { Spotifyembed } from "../components/Spotifyembed";
 import { Tweetembed } from "../components/Tweetembed";
-import Youtubeembed from "../components/Youtubeembed";
 import { getPage, getBlocks, getDatabase } from "../library/notion";
-import dynamic from 'next/dynamic'
 
-
-function pagedatas({ page, pageblock, blockchild }) {
-  // console.log("page", page);
+function pagedatas({ page, pageblock, child }) {
+   
+  console.log("page", page);
   console.log("pageblock", pageblock);
 
 
   const datasOFBlock = child;
   const definedBlock = datasOFBlock || [];
 
+  console.log("defined block", definedBlock)
   const something = definedBlock.map((child) => {
     return child.type === "table_row"
       ? child?.table_row?.cells.map((item) => item[0]?.text.content)
@@ -24,9 +23,9 @@ function pagedatas({ page, pageblock, blockchild }) {
       : ""; 
 
   });
-  const rows = something.map((row) => {
-    return row.map((cell) => cell);
-  });
+  // const rows = something.map((row) => {
+  //   return row.map((cell) => cell);
+  // });
 
   // console.log("type", rows);
 
@@ -34,9 +33,10 @@ function pagedatas({ page, pageblock, blockchild }) {
   console.log("something", something);
   const datasOfPage = pageblock;
   const items = datasOfPage || [];
+   console.log("codeBlocks", items);
   const codeBlocks = items.map((block) => {
-
-    console.log("bloc",block?.heading_3?.rich_text.map((item) => item?.text?.content));
+   
+    console.log("bloc",block?.paragraph?.rich_text.map((item) => item));
 
     if (block.type == "callout") {
       return (
@@ -100,7 +100,7 @@ function pagedatas({ page, pageblock, blockchild }) {
         setColorPara(block?.paragraph?.color);
       }, [block]);
       return (
-        <div>{block?.quote?.rich_text.map((item) => item?.text?.content)}</div>
+        <div>{block?.paragraph?.rich_text.map((item) => item?.text?.content)}</div>
       );
     } else if (block.type == "quote") {
       const [colorQuote, setColorQuote] = useState(
@@ -117,63 +117,45 @@ function pagedatas({ page, pageblock, blockchild }) {
           {block?.quote?.rich_text.map((item) => item?.text?.content)}
         </div>
       );
-    } else if (block.type == "toggle") {
-      const [colorToggle, setColorToggle] = useState(
-        block?.toggle?.color == "default" ? "gray" : "black"
-      );
-      const [open, setOpen] = useState(false);
+    } else if (block?.type == "toggle"){
+      const [isToggled, setIsToggled] = useState(false);
+      // console.log('block',block)
+      console.log('xxx')
+      console.log('definedBlock',definedBlock)
+       {definedBlock?.map((value)=>{
+        console.log('valueee',value)
+        console.log('blockkkk',block)
+        if(value?.parent?.page_id  === block?.id){
+          console.log('xxxxx',value)
+          // const mainval = 
+          // const subval = value?.paragraph.rich_text.map((val)=>{
+          //     return <div className="text-gray-700">{val?.text.link == null ? val?.text.content : <a href={val?.text.link.url}>{val?.text.content}</a> }</div>
+          // })
+          // return (
+          //   <div>
+          //     <span
+          //       className={`bg-gray-200 rounded-full p-2 focus:outline-none ${
+          //         isToggled ? 'bg-indigo-500' : ''
+          //       }`}
+          //       onClick={() => setIsToggled(!isToggled)}
+          //     >
+          //       {block?.toggle?.rich_text.map((val)=>{
+          //         return <div>{val?.plain_text}</div>
+          //       })}
+          //     </span>
+          //     {isToggled && (
+          //       <div className="p-4 bg-gray-300 rounded-md">
+          //         {subval}
+          //       </div>
+          //     )}
+          //   </div>
+          // );
+        }
+      })}
+      // console.log('toggle',togglechild)
+      // return <div>{togglechild}</div>
+      // if(block.id ==)
 
-
-      const handleToggle = () => {
-        setOpen(!open);
-      };
-
-
-       return (
-        <div
-          key={block?.id}
-          className={`text-${colorToggle}-400 font-medium leading-relaxed mb-4 relative`}
-        >
-          <button
-            className="focus:outline-none toggle-button"
-            onClick={handleToggle}
-          >
-            <div className="flex items-center">
-              <svg
-                className="w-6 h-6"
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M9 5L5 9L9 13"
-                  // stroke="currentColor"
-                  // stroke-width="2"
-                  // stroke-linecap="round"
-                  // stroke-linejoin="round"
-                />
-              </svg>
-              <span className="ml-2 text-lg font-medium leading-5 text-gray-900">
-                {" "}
-                {block?.toggle?.rich_text.map((item) => item?.text?.content)}
-              </span>
-            </div>
-          </button>
-          {/* {block.has_children && (
-            <div className={`toggle-content ${open ? "block" : "hidden"}`}>
-              {blockchild.map((child) => {
-                if (child.type == "paragraph") {
-                  return (
-                    <p className="text-black">
-                      {child?.paragraph?.rich_text[0]?.text?.content}
-                    </p>
-                  );
-                }
-              })}
-            </div>
-          )} */}
-        </div>
-      );
     } else if (block.type == "to_do") {
       const [colorToDo, setColorToDo] = useState(
         block?.to_do?.color == "default" ? "gray" : "black"
@@ -219,27 +201,13 @@ function pagedatas({ page, pageblock, blockchild }) {
     } else if (block.type == "embed"){
       const url = block?.embed?.url
       const spliturl = url.split('/');
-  
+      console.log('url',spliturl)
       if(spliturl[2] === 'open.spotify.com'){
         return <Spotifyembed trackUrl={spliturl}/>
       } else if(spliturl[2] === 'twitter.com'){
         return <Tweetembed tweet={spliturl}/>
       } else if(spliturl[2] === 'goo.gl'){
         return <Googlemapsembed place={spliturl}/>
-      }
-    } else if (block?.type == 'video' && block?.video?.type == 'external'){
-      const videolink = block?.video?.external?.url
-      const splitVidLink = videolink?.split('/');
-      if(splitVidLink[2] === 'www.youtube.com'){
-        return <Youtubeembed vidUrl={splitVidLink}/>
-      } else if(splitVidLink[2] === 'www.loom.com'){
-        // return 
-        return (
-          <>
-            <script src={script}></script>
-            <Loomembed loomUrl={splitVidLink} />
-          </>
-        )
       }
     }
       
@@ -317,11 +285,11 @@ function pagedatas({ page, pageblock, blockchild }) {
 export default pagedatas;
 
 
-export const databaseId = "e649f6c751994c0ea85ac6cd6495e7f4";
+// export const databaseId = "e649f6c751994c0ea85ac6cd6495e7f4";
 // export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";
 
 
-// export const databaseId = "4c699e3e758d41248751780fefed7d23";
+export const databaseId = "4c699e3e758d41248751780fefed7d23";
 // export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";
 
 export const getStaticPaths = async () => {
@@ -344,9 +312,6 @@ export const getStaticProps = async (context) => {
         child.push(...await getBlocks(pageblock[i].id));
     }
   }
-
-  console.log('child data:', child);
-
 
   return {
     props: {
@@ -378,5 +343,3 @@ export const getStaticProps = async (context) => {
 //     revalidate: 1,
 //   };
 // };
-
-
