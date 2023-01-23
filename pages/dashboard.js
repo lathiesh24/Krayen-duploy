@@ -2,6 +2,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { Fragment, useState } from 'react'
+import Navbar from '../components/Navbar';
 import { getDatabase } from '../library/notion';
 
 
@@ -78,6 +79,7 @@ export default function MyModal() {
   return (
     <>
       <div className="fixed inset-0 flex items-center justify-center">
+        {/* <Navbar/> */}
         <button
           type="button"
           onClick={openModal}
