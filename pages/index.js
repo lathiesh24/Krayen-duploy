@@ -119,32 +119,32 @@ const LastEditedTime = posts.map((post)=>{
 
 const LastEditedBy = posts.map((post)=>{
   const properties = Object.values(post.properties)
-  const lastEditedTimeProperties = properties.filter(property => property.type === "last_edited_by").map((prop)=>{
+  const lastEditedTimeProperties = properties.filter(property => property?.type === "last_edited_by").map((prop)=>{
   
-   return <div>{prop.last_edited_by.name}</div>
+   return <div>{prop?.last_edited_by.name}</div>
   })
   return <div>{lastEditedTimeProperties}</div>
 })
 
 const Number = posts.map((post)=>{
   const properties = Object.values(post.properties)
-  const NumberProperties = properties.filter(property => property.type === "number").map((prop)=>{
-   return <div>{prop.number}</div>
+  const NumberProperties = properties.filter(property => property?.type === "number").map((prop)=>{
+   return <div>{prop?.number}</div>
   })
   return <div>{NumberProperties}</div>
 })
 
 const Status = posts.map((post)=>{
   const properties = Object.values(post.properties)
-  const StatusProperties = properties.filter(property => property.type === "status").map((prop)=>{
-   return <div>{prop.status.name}</div>
+  const StatusProperties = properties.filter(property => property?.type === "status").map((prop)=>{
+   return <div>{prop?.status?.name}</div>
   })
   return <div>{StatusProperties}</div>
 })
 
 const DateProp = posts.map((post)=>{
-  const properties = Object.values(post.properties)
-  const DateProperties = properties.filter(property => property.type === "date").map((prop)=>{
+  const properties = Object.values(post?.properties)
+  const DateProperties = properties.filter(property => property?.type === "date").map((prop)=>{
     const date = new Date(prop?.date?.start)
    return  (date.toLocaleString("en-US", {
           month: "short",
@@ -156,35 +156,35 @@ const DateProp = posts.map((post)=>{
 })
 
 const Person = posts.map((post)=>{
-  const properties = Object.values(post.properties)
-  const PersonProperties = properties.filter(property => property.type === "people").map((prop)=>{
-   return (prop.people.map((item)=>{
-    return item.name
+  const properties = Object.values(post?.properties)
+  const PersonProperties = properties?.filter(property => property?.type === "people")?.map((prop)=>{
+   return (prop?.people?.map((item)=>{
+    return item?.name
    }))
   })
   return <div>{PersonProperties}</div>
 })
 
 const Phone = posts.map((post)=>{
-  const properties = Object.values(post.properties)
-  const PhoneProperties = properties.filter(property => property.type === "phone_number").map((prop)=>{
-   return prop.phone_number
+  const properties = Object.values(post?.properties)
+  const PhoneProperties = properties.filter(property => property?.type === "phone_number").map((prop)=>{
+   return prop?.phone_number
   })
   return <div>{PhoneProperties}</div>
 })
 
 const Email = posts.map((post)=>{
-  const properties = Object.values(post.properties)
-  const EmailProperties = properties.filter(property => property.type === "email").map((prop)=>{
-  return prop.email
+  const properties = Object.values(post?.properties)
+  const EmailProperties = properties.filter(property => property?.type === "email").map((prop)=>{
+  return prop?.email
   })
   return <div>{EmailProperties}</div>
 })
 
 const Checkbox = posts.map((post)=>{
-  const properties = Object.values(post.properties)
-  const CheckboxProperties = properties.filter(property => property.type === "checkbox").map((prop)=>{
-  return <div><input type="checkbox" checked={prop.checkbox} /></div>
+  const properties = Object.values(post?.properties)
+  const CheckboxProperties = properties.filter(property => property?.type === "checkbox").map((prop)=>{
+  return <div><input type="checkbox" checked={prop?.checkbox} /></div>
   })
   return <div>{CheckboxProperties}</div>
 })
