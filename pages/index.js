@@ -36,7 +36,7 @@ export const Text = ({ text }) => {
         ].join(" line-clamp-3")}
         style={color !== "default" ? { color } : {}}
       >
-        {text.link == null ? text.content : <a href={text.link.url}>{text.content}</a> }
+        {text?.link == null ? text.content : <a href={text?.link?.url}>{text?.content}</a> }
       </span>
     );
   });
@@ -47,18 +47,18 @@ function index({ posts }) {
 
   //Title
 const title = posts.map(post => {
-  const properties = Object.values(post.properties);
+  const properties = Object.values(post?.properties);
   const titleProperties = properties.filter(property => property?.type === "title").map((property) => {
-    return property?.title?.map(value => value.text.content);
+    return property?.title?.map(value => value?.text?.content);
   });
   return <div className="font-sans text-2xl font-bold" >{titleProperties}</div>
 });
 
 const multiSelect = posts.map((post=>{
-  const properties = Object.values(post.properties)
-  const multiSelectProperties = properties.filter(property => property?.type === "multi_select").map((prop)=>{
-    return prop.multi_select.map((value) =>{
-      return <div className="cursor-pointer m-2 pl-2 pr-2 pb-1 w-full shadow-lg bg-[#89cff0] rounded-sm">{value.name}</div>
+  const properties = Object.values(post?.properties)
+  const multiSelectProperties = properties.filter(property => property?.type === "multi_select")?.map((prop)=>{
+    return prop?.multi_select?.map((value) =>{
+      return <div className="cursor-pointer m-2 pl-2 pr-2 pb-1 w-full shadow-lg bg-[#89cff0] rounded-sm">{value?.name}</div>
     });
   })
    return <div className="flwz">{multiSelectProperties}</div>
@@ -67,7 +67,7 @@ const multiSelect = posts.map((post=>{
 const Select = posts.map((post=>{
   const properties = Object.values(post.properties)
   const selectProperties = properties.filter(property => property.type === "select").map((prop)=>{
-     return <div  className="cursor-pointer m-2 pl-2 pr-2 pb-1 w-full shadow-lg bg-[#89cff0] rounded-sm">{prop.select.name}</div>
+     return <div  className="cursor-pointer m-2 pl-2 pr-2 pb-1 w-full shadow-lg bg-[#89cff0] rounded-sm">{prop?.select?.name}</div>
   })
   return <div>{selectProperties}</div>
 }))
@@ -75,9 +75,9 @@ const Select = posts.map((post=>{
 
 const Texture = posts.map((post)=>{
   const properties = Object.values(post.properties)
-  const textureProperties = properties.filter(property => property.type === "rich_text").map((prop)=>{
-    return prop.rich_text.map((item)=>{
-       return <div>{item.text.content}</div>
+  const textureProperties = properties.filter(property => property?.type === "rich_text").map((prop)=>{
+    return prop?.rich_text?.map((item)=>{
+       return <div>{item?.text?.content}</div>
     })
   })
   return <div>{textureProperties}</div>
@@ -98,16 +98,16 @@ const CreatedTime = posts.map((post)=>{
 
 const CreatedBy = posts.map((post)=>{
   const properties = Object.values(post.properties)
-  const createdByProperties = properties.filter(property => property.type === "created_by").map((prop)=>{
-   return <div>{prop.created_by.name}</div>
+  const createdByProperties = properties.filter(property => property?.type === "created_by").map((prop)=>{
+   return <div>{prop?.created_by?.name}</div>
   })
   return <div>{createdByProperties}</div>
 })
 
 const LastEditedTime = posts.map((post)=>{
   const properties = Object.values(post.properties)
-  const lastEditedTimeProperties = properties.filter(property => property.type === "last_edited_time").map((prop)=>{
-   const date = new Date(prop.last_edited_time)
+  const lastEditedTimeProperties = properties.filter(property => property?.type === "last_edited_time").map((prop)=>{
+   const date = new Date(prop?.last_edited_time)
    return (date.toLocaleString("en-US", {
           month: "short",
           day: "2-digit",
@@ -145,7 +145,7 @@ const Status = posts.map((post)=>{
 const DateProp = posts.map((post)=>{
   const properties = Object.values(post.properties)
   const DateProperties = properties.filter(property => property.type === "date").map((prop)=>{
-    const date = new Date(prop.date.start)
+    const date = new Date(prop?.date?.start)
    return  (date.toLocaleString("en-US", {
           month: "short",
           day: "2-digit",
@@ -190,36 +190,23 @@ const Checkbox = posts.map((post)=>{
 })
 
 const urls = posts.map((post)=>{
-  const properties = Object.values(post.properties)
-  const urlsProperties = properties.filter(property => property.type === "url").map((prop)=>{
-  return <div><a href={prop.url}/>{prop.url}</div>
+  const properties = Object.values(post?.properties)
+  const urlsProperties = properties.filter(property => property?.type === "url").map((prop)=>{
+  return <div><a href={prop?.url}/>{prop?.url}</div>
   })
   return <div>{urlsProperties}</div>
 })
 
-
-
 const Filemedia = posts.map(post => {
-  const properties = Object.values(post.properties);
-  const FilemediaProperties = properties.filter(property => property.type === "files").map((prop)=>{
-    return (prop.files.map((item)=>{
-      return <div><Link href={item.file.url}><a>{item.name}</a></Link></div>
+  const properties = Object.values(post?.properties);
+  const FilemediaProperties = properties.filter(property => property?.type === "files").map((prop)=>{
+    return (prop?.files?.map((item)=>{
+      return <div><Link href={item?.file?.url}><a>{item?.name}</a></Link></div>
     }))
   })
   return <div>{ FilemediaProperties}</div>
 })
 
-// const Relation = posts.map(post => {
-//   const properties = Object.values(post.properties);
-//   const relationProperties = properties.filter(property => property.type === "relation");
-//   console.log("relationProps",properties)
-//   // return relationProperties.map(property => (
-//   //   <div key={property.id}>
-//   //     <h3>{property.name}</h3>
-//   //     <p>{property.description}</p>
-//   //   </div>
-//   // ));
-// });
 
 
   return (
@@ -254,7 +241,9 @@ const Filemedia = posts.map(post => {
                 <div className="ml-3 md:max-w-[300px]">
                   <h3 className="pl-2 text-xl ">
                     {/* <Text text={post?.properties?.Name?.title} key={post?.properties?.Name?.id}/> */}
-                    {title}
+                    {title.map(item =>{
+                      return <div>{item}</div>
+                    })}
                   </h3>
                   <div className="  flex-grow h-[90px] p-3 ">
                     {/* <Text text={post.properties.Text.rich_text} /> */}
