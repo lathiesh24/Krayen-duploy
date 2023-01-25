@@ -4,13 +4,13 @@ import Link from "next/link";
 import React, { Fragment } from "react";
 import { getBlocks, getDatabase, getPage } from "../library/notion";
 
-export const databaseId = "4c699e3e758d41248751780fefed7d23";
+//export const databaseId = "4c699e3e758d41248751780fefed7d23";
 // export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";
 
 // export const databaseId = 'e649f6c751994c0ea85ac6cd6495e7f4';
 // //export const pageId='4606f5e400c34d68b8a0353328ad0c3c'
 
-// export const databaseId = "e649f6c751994c0ea85ac6cd6495e7f4";
+export const databaseId = "e649f6c751994c0ea85ac6cd6495e7f4";
 // export const pageId = "eb889e735554462ca107e68cd7ace229";
 
 export const Text = ({ text }) => {
@@ -164,13 +164,7 @@ function index({ posts }) {
     return <div>{NumberProperties}</div>;
   });
 
-const Number = posts.map((post)=>{
-  const properties = Object.values(post.properties)
-  const NumberProperties = properties.filter(property => property.type === "number").map((prop)=>{
-   return <div>{prop.number}</div>
-  })
-  return <div>{NumberProperties}</div>
-})
+
 
 const Status = posts.map((post)=>{
   const properties = Object.values(post.properties)
@@ -188,7 +182,7 @@ const DateProp = posts.map((post)=>{
           month: "short",
           day: "2-digit",
           year: "numeric",
-        });
+        }));
       });
     return <div>{DateProperties}</div>;
   });
