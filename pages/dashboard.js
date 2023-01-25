@@ -6,8 +6,12 @@ import DetailsRendering from "../components/DetailsRendering";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { getDatabase } from "../library/notion";
+import Detailspage from '../components/Detailspage'
 
 export default function MyModal() {
+
+
+
   const router = useRouter();
   let [isOpen, setIsOpen] = useState(false);
   let [subModalIsOpen, setSubModalIsOpen] = useState(false);
@@ -76,20 +80,20 @@ export default function MyModal() {
     },
   ];
   return (
-    <>
-      <Navbar />
-      <div className="fixed inset-0 flex items-center justify-center">
-        {/* <Navbar/> */}
+    <div>
+      <div className="fixed inset-0 ">
+        {/* <Navbar /> */}
+      </div>
+      
+      <div className="flex items-center justify-center">
         <button
           type="button"
           onClick={openModal}
-          className="rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+          className="px-4 py-2 text-sm font-medium text-white bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
         >
           Create a site
         </button>
-      </div>
-
-      <Transition appear show={isOpen} as={Fragment}>
+         <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
           <Transition.Child
             as={Fragment}
@@ -104,7 +108,7 @@ export default function MyModal() {
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <div className="flex items-center justify-center min-h-full p-4 text-center">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -114,15 +118,15 @@ export default function MyModal() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="absolute left-1/2 z-10 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl">
+                <Dialog.Panel className="absolute z-10 w-screen max-w-sm px-4 mt-3 transform -translate-x-1/2 left-1/2 sm:px-0 lg:max-w-3xl">
                   <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                     <div className="relative grid gap-8 bg-white p-7 lg:grid-cols-2">
                       {solutions.map((item) => (
                         <div
-                          className="-m-3 flex items-center cursor-pointer rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                          className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg cursor-pointer hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                           onClick={submodalopen}
                         >
-                          <div className="flex h-10 w-10 shrink-0 items-center justify-center text-white sm:h-12 sm:w-12 ">
+                          <div className="flex items-center justify-center w-10 h-10 text-white shrink-0 sm:h-12 sm:w-12 ">
                             <item.icon aria-hidden="true" />
                           </div>
                           <div className="ml-4 ">
@@ -158,7 +162,7 @@ export default function MyModal() {
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <div className="flex items-center justify-center min-h-full p-4 text-center">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -188,16 +192,16 @@ export default function MyModal() {
                         your notion page. Ignore if you have done it already.
                       </span>
                       <div className="mt-4">
-                        <button className=" text-white bg-black rounded-md p-2">
+                        <button className="p-2 text-white bg-black rounded-md ">
                           Go to my notion page
                         </button>
                       </div>
                     </div>
                     <div className="flex flex-col mt-10">
-                      <span className=" font-bold flex lg:text-xl">
+                      <span className="flex font-bold lg:text-xl">
                         Site name
                       </span>
-                      <div className="mt-2 flex">
+                      <div className="flex mt-2">
                         <input
                           type="text"
                           className=" min-w-[280px] flex-grow lg:w-[500px] max-w-[650px] border-2 border-gray-200 outline-none rounded-md p-2"
@@ -205,10 +209,10 @@ export default function MyModal() {
                       </div>
                     </div>
                     <div className="flex flex-col mt-10">
-                      <span className=" font-bold flex lg:text-xl">
+                      <span className="flex font-bold lg:text-xl">
                         Notion page URL
                       </span>
-                      <div className="mt-2 flex">
+                      <div className="flex mt-2">
                         <input
                           type="text"
                           onChange={(e) => setPageUrl(e.target.value)}
@@ -217,9 +221,9 @@ export default function MyModal() {
                         />
                       </div>
                     </div>
-                    <div className="mt-10 flex justify-center">
+                    <div className="flex justify-center mt-10">
                       <button
-                        className=" text-white bg-black rounded-md p-2"
+                        className="p-2 text-white bg-black rounded-md "
                         onClick={closeAll}
                       >
                         Cancel
@@ -238,10 +242,13 @@ export default function MyModal() {
           </div>
         </Dialog>
       </Transition>
-      <div>
-        <Footer />
       </div>
-    </>
+     
+      <Detailspage/>
+      <Footer className="" />
+      
+    </div>
+    
   );
 }
 

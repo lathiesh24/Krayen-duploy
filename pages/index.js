@@ -6,13 +6,13 @@ import React, { Fragment } from "react";
 import { useEffect } from "react";
 import { getBlocks, getDatabase, getPage } from "../library/notion";
 
-export const databaseId = "4c699e3e758d41248751780fefed7d23";
+//export const databaseId = "4c699e3e758d41248751780fefed7d23";
 // export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";
 
 // export const databaseId = 'e649f6c751994c0ea85ac6cd6495e7f4';
 // //export const pageId='4606f5e400c34d68b8a0353328ad0c3c'
 
-// export const databaseId = "e649f6c751994c0ea85ac6cd6495e7f4";
+export const databaseId = "e649f6c751994c0ea85ac6cd6495e7f4";
 // export const pageId = "eb889e735554462ca107e68cd7ace229";
 
 export const Text = ({ text }) => {
@@ -177,7 +177,7 @@ function index({ posts ,datablock}) {
     return <div>{StatusProperties}</div>;
   });
 
-  const DateProp = posts.map((post) => {
+const DateProp = posts.map((post) => {
     const properties = Object.values(post.properties);
     const DateProperties = properties
       .filter((property) => property.type === "date")
@@ -254,9 +254,9 @@ function index({ posts ,datablock}) {
   });
 
   return (
-    <div className=" min-h-screen flex flex-col justify-center items-center max-w-screen-2xl sm:m-8">
+    <div className="flex flex-col items-center justify-center min-h-screen max-w-screen-2xl sm:m-8">
       <h2 className="mb-[70px] text-3xl">All Posts</h2>
-      <div className="grid grid-flow-row-dense xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 mx-auto ">
+      <div className="grid grid-flow-row-dense mx-auto xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 ">
         {posts.map((post) => {
           // console.log(
           //   "postingggggggggg",
@@ -281,7 +281,7 @@ function index({ posts ,datablock}) {
             });
           return (
             <Link className="" href={`/${post.id}`}>
-              <div className=" relative m-8 justify-center items-center cursor-pointer hover:scale-105 hover:-translate-y-1 transition hover:delay-150 duration-300 ease-in-out rounded-lg bg-white">
+              <div className="relative items-center justify-center m-8 transition duration-300 ease-in-out bg-white rounded-lg cursor-pointer hover:scale-105 hover:-translate-y-1 hover:delay-150">
                 <div className="w-full">
                   <img
                     src={post?.cover?.external?.url}
@@ -290,17 +290,17 @@ function index({ posts ,datablock}) {
                   />
                 </div>
 
-                <div className="py-2 px-2">
+                <div className="px-2 py-2">
                   <div className="flex items-center justify-between py-2">
-                    <div className=" flex">{multiSelectProperties}</div>
+                    <div className="flex ">{multiSelectProperties}</div>
                     <span className="text-neutral-500">{date}</span>
                   </div>
                  <div className="flex px-3 py-2">
-                  <h1 className=" text-xl font-bold ">
+                  <h1 className="text-xl font-bold ">
                       {post?.properties?.Name?.title[0]?.text?.content}
                     </h1>
                  </div>
-                  <div className=" p-3 text-lg line-clamp-3">
+                  <div className="p-3 text-lg line-clamp-3">
                     <Text text={post?.properties?.Text?.rich_text} />
                   </div>
                 </div>
