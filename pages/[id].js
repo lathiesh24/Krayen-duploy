@@ -5,6 +5,10 @@ import { Googlemapsembed } from "../components/Googlemapsembed";
 import { Spotifyembed } from "../components/Spotifyembed";
 import { Tweetembed } from "../components/Tweetembed";
 import { getPage, getBlocks, getDatabase } from "../library/notion";
+// import { PlayIcon } from "@heroicons/react/24/solid";
+
+
+
 
 function pagedatas({ page, pageblock, child }) {
    
@@ -15,7 +19,7 @@ function pagedatas({ page, pageblock, child }) {
   const datasOFBlock = child;
   const definedBlock = datasOFBlock || [];
 
-  console.log("defined block", definedBlock)
+  // console.log("defined block", definedBlock)
   const something = definedBlock.map((child) => {
     return child.type === "table_row"
       ? child?.table_row?.cells.map((item) => item[0]?.text.content)
@@ -30,19 +34,19 @@ function pagedatas({ page, pageblock, child }) {
   // console.log("type", rows);
 
 
-  console.log("something", something);
+  // console.log("something", something);
   const datasOfPage = pageblock;
   const items = datasOfPage || [];
-   console.log("codeBlocks", items);
+  //  console.log("codeBlocks", items);
   const codeBlocks = items.map((block) => {
    
-    console.log("bloc",block?.paragraph?.rich_text.map((item) => item));
+    // console.log("bloc",block?.paragraph?.rich_text.map((item) => item));
 
     if (block.type == "callout") {
       return (
         <div
           key={block?.id}
-          className="px-4 py-2 text-black bg-yellow-200 rounded-xl"
+          className="px-4 py-2 text-black my-5 bg-[#e5e5e5] rounded-lg"
         >
           <div>
             {" "}
@@ -58,7 +62,7 @@ function pagedatas({ page, pageblock, child }) {
     } else if (block.type == "code") {
       return (
         <pre
-          className={`p-4 overflow-x-auto text-white bg-gray-800 rounded-md`}
+          className={`p-4 my-5 overflow-x-auto text-white bg-gray-600 rounded-md`}
           key={block.id}
         >
           {block?.code?.rich_text.map((item) => item?.text?.content)}
@@ -69,7 +73,7 @@ function pagedatas({ page, pageblock, child }) {
       return (
         <div
           key={block?.id}
-          className="mt-5 text-3xl font-medium text-gray-800 capitalize"
+          className=" my-5 text-3xl font-medium text-gray-800 capitalize"
         >
           {block?.heading_3?.rich_text.map((item) => item?.text?.content)}
         </div>
@@ -78,7 +82,7 @@ function pagedatas({ page, pageblock, child }) {
       return (
         <div
           key={block?.id}
-          className="text-2xl font-bold text-gray-800 capitalize "
+          className="text-4xl my-5 font-medium text-gray-800 capitalize "
         >
           {block?.heading_2?.rich_text.map((item) => item?.text?.content)}
         </div>
@@ -87,7 +91,7 @@ function pagedatas({ page, pageblock, child }) {
       return (
         <div
           key={block?.id}
-          className="text-3xl font-bold leading-tight capitalize"
+          className="text-5xl my-5 font-medium leading-tight capitalize"
         >
           {block?.heading_1?.rich_text.map((item) => item?.text?.content)}
         </div>
@@ -100,7 +104,7 @@ function pagedatas({ page, pageblock, child }) {
         setColorPara(block?.paragraph?.color);
       }, [block]);
       return (
-        <div>{block?.paragraph?.rich_text.map((item) => item?.text?.content)}</div>
+        <div className="my-5">{block?.paragraph?.rich_text.map((item) => item?.text?.content)}</div>
       );
     } else if (block.type == "quote") {
       const [colorQuote, setColorQuote] = useState(
@@ -112,49 +116,55 @@ function pagedatas({ page, pageblock, child }) {
       return (
         <div
           key={block?.id}
-          className={`w-full caret-color-${colorQuote}-500 p-3 max-w-full text-lg border-gray-800 white-space-pre-wrap word-break-break-word text-md border-x-4`}
+          className={`w-full my-5 caret-color-${colorQuote}-500 px-3 py-2 max-w-full text-base border-gray-800 white-space-pre-wrap word-break-break-word text-md border-l-4`}
         >
           {block?.quote?.rich_text.map((item) => item?.text?.content)}
         </div>
       );
     } else if (block?.type == "toggle"){
       const [isToggled, setIsToggled] = useState(false);
-      // console.log('block',block)
-      console.log('xxx')
-      console.log('definedBlock',definedBlock)
-       {definedBlock?.map((value)=>{
-        console.log('valueee',value)
-        console.log('blockkkk',block)
-        if(value?.parent?.page_id  === block?.id){
-          console.log('xxxxx',value)
-          // const mainval = 
-          // const subval = value?.paragraph.rich_text.map((val)=>{
-          //     return <div className="text-gray-700">{val?.text.link == null ? val?.text.content : <a href={val?.text.link.url}>{val?.text.content}</a> }</div>
-          // })
-          // return (
-          //   <div>
-          //     <span
-          //       className={`bg-gray-200 rounded-full p-2 focus:outline-none ${
-          //         isToggled ? 'bg-indigo-500' : ''
-          //       }`}
-          //       onClick={() => setIsToggled(!isToggled)}
-          //     >
-          //       {block?.toggle?.rich_text.map((val)=>{
-          //         return <div>{val?.plain_text}</div>
-          //       })}
-          //     </span>
-          //     {isToggled && (
-          //       <div className="p-4 bg-gray-300 rounded-md">
-          //         {subval}
-          //       </div>
-          //     )}
-          //   </div>
-          // );
+      const mainval = block?.toggle?.rich_text.map((val)=>{
+        return <div>{val?.plain_text}</div>
+      })
+      let newArray = []
+      
+       const togggle = definedBlock?.map((value)=>{       
+        if(value?.parent?.block_id  === block?.id){
+          // console.log('xxxxx',value)
+          // console.log('valueee',value)
+          // console.log('blockkkk',block)     
+         {value?.paragraph.rich_text.map((val)=>{
+              return newArray.push(val)
+          })}
+          return
         }
-      })}
+      })
       // console.log('toggle',togglechild)
-      // return <div>{togglechild}</div>
-      // if(block.id ==)
+      // console.log('newArray',newArray)
+      // const subval = 
+      return (
+        <div className=" my-5  ml-0 ">
+           <div
+             className="flex items-center">
+             <div className={`h-[18px] cursor-pointer ${isToggled ? 'transform rotate-90 ease-in-out': null}`} onClick={() => setIsToggled(!isToggled)} >
+                 To
+              </div>  
+              <div className=" ml-2 text-lg font-medium">
+              {mainval}
+              </div>
+            </div>
+            {isToggled && (
+              <div className="ml-7 mt-2 text-base">
+                {newArray?.map((val)=>{
+                 return (
+                  <div className="text-gray-700 my-2">{val?.text.link == null ? val?.text.content : <a href={val?.text.link.url}>{val?.text.content}</a> }</div>
+                 )
+                 })}
+              </div>
+            )}
+        </div>
+      )
+    
 
     } else if (block.type == "to_do") {
       const [colorToDo, setColorToDo] = useState(
@@ -163,22 +173,23 @@ function pagedatas({ page, pageblock, child }) {
       useEffect(() => {
         setColorToDo(block?.to_do?.color);
       }, [block]);
-      const classNameCheck =
-        block?.to_do?.checked == true ? "line-through" : "";
-      console.log("todo", classNameCheck);
+      const classNameCheck =block?.to_do?.checked == true ? "line-through" : "";
+      // console.log("todo", classNameCheck);
       return (
         <div
           key={block?.id}
-          className={`text-${colorToDo}-400 font-medium  ${classNameCheck} leading-relaxed mb-4`}
+          className={`text-${colorToDo}-400 my-5 flex items-center font-normal text-base  ${classNameCheck} leading-relaxed mb-4`}
         >
-          <input type="checkbox" checked={block?.to_do?.checked} />
-          {block?.to_do?.rich_text.map((item) => item?.text?.content)}
+          <input type="checkbox" checked={block?.to_do?.checked} readOnly={true}/>
+          <div className=" ml-3">
+            {block?.to_do?.rich_text.map((item) => item?.text?.content)}
+          </div>
         </div>
       );
 
     } else if (block.type == "numbered_list_item") {
       return (
-        <li className="list-decimal text-md">
+        <li className="list-decimal my-5 text-md">
           {block.numbered_list_item.rich_text.map(
             (item) => item?.text?.content
           )}
@@ -187,21 +198,21 @@ function pagedatas({ page, pageblock, child }) {
 
     } else if (block.type == "video" ) {
         return (
-            <div>
+            <div className=" my-5">
                 {/* <span>{block.video.caption}</span> */}
                 <a href={`${block.video.external.url}`}>{block.video.external.url}</a>
             </div>
         )
     } else if (block.type == "image") {
         return (
-            <div>
+            <div className=" my-5">
               <img src={`${block.image.file.url}`} alt="" />               
             </div>
         )
     } else if (block.type == "embed"){
       const url = block?.embed?.url
       const spliturl = url.split('/');
-      console.log('url',spliturl)
+      // console.log('url',spliturl)
       if(spliturl[2] === 'open.spotify.com'){
         return <Spotifyembed trackUrl={spliturl}/>
       } else if(spliturl[2] === 'twitter.com'){
@@ -213,13 +224,13 @@ function pagedatas({ page, pageblock, child }) {
       
     else if (block && block.type === "paragraph" && block.paragraph && block.paragraph.rich_text && block.paragraph.rich_text[0] && block.paragraph.rich_text[0].type === "equation" && block.paragraph.rich_text[0].equation) {
     return (
-        <div>
+        <div className=" my-5">
             {block.paragraph.rich_text[0].equation.expression}      
         </div>
     );
     }else if (block.type == "bulleted_list_item") {
       return (
-        <ul className="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
+        <ul className="max-w-md  my-5 space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
             <li className="text-md">
             {block.bulleted_list_item.rich_text[0].text.content}
             </li>
@@ -277,8 +288,8 @@ function pagedatas({ page, pageblock, child }) {
 
 
   return (
-    <div className="flex items-center justify-center">
-      <div className=" w-[800px]">{codeBlocks}</div>;
+    <div className="flex items-center justify-center max-w-screen-2xl px-10 sm:px-20 md:px-36 lg:px-52">
+      <div className=" xl:w-[800px] min-w-[400px] ">{codeBlocks}</div>;
     </div>
   )
 }
