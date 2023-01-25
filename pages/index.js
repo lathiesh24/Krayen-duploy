@@ -44,8 +44,8 @@ export const Text = ({ text }) => {
 };
 
 function index({ posts ,datablock}) {
-  console.log("posts", posts);
-  console.log('datablock',datablock)
+  // console.log("posts", posts);
+  // console.log('datablock',datablock)
  
   async function ffff(){
     const getdata = await axios.post(`/api/database`, {
