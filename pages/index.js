@@ -165,23 +165,27 @@ function index({ posts }) {
     return <div>{NumberProperties}</div>;
   });
 
-  const Status = posts.map((post) => {
-    const properties = Object.values(post.properties);
-    const StatusProperties = properties
-      .filter((property) => property.type === "status")
-      .map((prop) => {
-        return <div>{prop.status.name}</div>;
-      });
-    return <div>{StatusProperties}</div>;
-  });
+const Number = posts.map((post)=>{
+  const properties = Object.values(post.properties)
+  const NumberProperties = properties.filter(property => property.type === "number").map((prop)=>{
+   return <div>{prop.number}</div>
+  })
+  return <div>{NumberProperties}</div>
+})
 
-  const DateProp = posts.map((post) => {
-    const properties = Object.values(post.properties);
-    const DateProperties = properties
-      .filter((property) => property.type === "date")
-      .map((prop) => {
-        const date = new Date(prop?.date?.start);
-        return date.toLocaleString("en-US", {
+const Status = posts.map((post)=>{
+  const properties = Object.values(post.properties)
+  const StatusProperties = properties.filter(property => property.type === "status").map((prop)=>{
+   return <div>{prop.status.name}</div>
+  })
+  return <div>{StatusProperties}</div>
+})
+
+const DateProp = posts.map((post)=>{
+  const properties = Object.values(post.properties)
+  const DateProperties = properties.filter(property => property.type === "date").map((prop)=>{
+    const date = new Date(prop?.date?.start)
+   return  (date.toLocaleString("en-US", {
           month: "short",
           day: "2-digit",
           year: "numeric",
@@ -190,51 +194,39 @@ function index({ posts }) {
     return <div>{DateProperties}</div>;
   });
 
-  const Person = posts.map((post) => {
-    const properties = Object.values(post.properties);
-    const PersonProperties = properties
-      .filter((property) => property.type === "people")
-      .map((prop) => {
-        return prop.people.map((item) => {
-          return item.name;
-        });
-      });
-    return <div>{PersonProperties}</div>;
-  });
+const Person = posts.map((post)=>{
+  const properties = Object.values(post.properties)
+  const PersonProperties = properties.filter(property => property.type === "people").map((prop)=>{
+   return (prop.people.map((item)=>{
+    return item.name
+   }))
+  })
+  return <div>{PersonProperties}</div>
+})
 
-  const Phone = posts.map((post) => {
-    const properties = Object.values(post.properties);
-    const PhoneProperties = properties
-      .filter((property) => property.type === "phone_number")
-      .map((prop) => {
-        return prop.phone_number;
-      });
-    return <div>{PhoneProperties}</div>;
-  });
+const Phone = posts.map((post)=>{
+  const properties = Object.values(post.properties)
+  const PhoneProperties = properties.filter(property => property.type === "phone_number").map((prop)=>{
+   return prop.phone_number
+  })
+  return <div>{PhoneProperties}</div>
+})
 
-  const Email = posts.map((post) => {
-    const properties = Object.values(post.properties);
-    const EmailProperties = properties
-      .filter((property) => property.type === "email")
-      .map((prop) => {
-        return prop.email;
-      });
-    return <div>{EmailProperties}</div>;
-  });
+const Email = posts.map((post)=>{
+  const properties = Object.values(post.properties)
+  const EmailProperties = properties.filter(property => property.type === "email").map((prop)=>{
+  return prop.email
+  })
+  return <div>{EmailProperties}</div>
+})
 
-  const Checkbox = posts.map((post) => {
-    const properties = Object.values(post.properties);
-    const CheckboxProperties = properties
-      .filter((property) => property.type === "checkbox")
-      .map((prop) => {
-        return (
-          <div>
-            <input type="checkbox" checked={prop.checkbox} />
-          </div>
-        );
-      });
-    return <div>{CheckboxProperties}</div>;
-  });
+const Checkbox = posts.map((post)=>{
+  const properties = Object.values(post.properties)
+  const CheckboxProperties = properties.filter(property => property.type === "checkbox").map((prop)=>{
+  return <div><input type="checkbox" checked={prop.checkbox} /></div>
+  })
+  return <div>{CheckboxProperties}</div>
+})
 
   const urls = posts.map((post) => {
     const properties = Object.values(post?.properties);

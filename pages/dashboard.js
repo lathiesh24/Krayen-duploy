@@ -2,6 +2,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
+import DetailsRendering from "../components/DetailsRendering";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { getDatabase } from "../library/notion";
