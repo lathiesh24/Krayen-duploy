@@ -5,7 +5,7 @@ import { Googlemapsembed } from "../components/Googlemapsembed";
 import { Spotifyembed } from "../components/Spotifyembed";
 import { Tweetembed } from "../components/Tweetembed";
 import { getPage, getBlocks, getDatabase } from "../library/notion";
-import { PlayIcon } from "@heroicons/react/24/solid";
+// import { PlayIcon } from "@heroicons/react/24/solid";
 
 
 
@@ -82,7 +82,7 @@ function pagedatas({ page, pageblock, child }) {
       return (
         <div
           key={block?.id}
-          className="text-2xl my-5 font-bold text-gray-800 capitalize "
+          className="text-4xl my-5 font-medium text-gray-800 capitalize "
         >
           {block?.heading_2?.rich_text.map((item) => item?.text?.content)}
         </div>
@@ -91,7 +91,7 @@ function pagedatas({ page, pageblock, child }) {
       return (
         <div
           key={block?.id}
-          className="text-3xl my-5 font-bold leading-tight capitalize"
+          className="text-5xl my-5 font-medium leading-tight capitalize"
         >
           {block?.heading_1?.rich_text.map((item) => item?.text?.content)}
         </div>
@@ -146,8 +146,8 @@ function pagedatas({ page, pageblock, child }) {
         <div className=" my-5  ml-0 ">
            <div
              className="flex items-center">
-             <div >
-                  <PlayIcon className={`h-[18px] cursor-pointer ${isToggled ? 'transform rotate-90 ease-in-out': null}`} onClick={() => setIsToggled(!isToggled)}/>
+             <div className={`h-[18px] cursor-pointer ${isToggled ? 'transform rotate-90 ease-in-out': null}`} onClick={() => setIsToggled(!isToggled)} >
+                 To
               </div>  
               <div className=" ml-2 text-lg font-medium">
               {mainval}
@@ -288,8 +288,8 @@ function pagedatas({ page, pageblock, child }) {
 
 
   return (
-    <div className="flex items-center justify-center">
-      <div className=" w-[800px]">{codeBlocks}</div>;
+    <div className="flex items-center justify-center max-w-screen-2xl px-10 sm:px-20 md:px-36 lg:px-52">
+      <div className=" xl:w-[800px] min-w-[400px] ">{codeBlocks}</div>;
     </div>
   )
 }

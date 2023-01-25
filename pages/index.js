@@ -1,5 +1,5 @@
 // import { getDatabase } from "@notionhq/client/build/src/api-endpoints";
-import { OpenInNewRounded } from "@mui/icons-material";
+// import { OpenInNewRounded } from "@mui/icons-material";
 import axios from "axios";
 import Link from "next/link";
 import React, { Fragment } from "react";
@@ -76,21 +76,9 @@ function index({ posts ,datablock}) {
     );
   });
 
-  const multiSelect = posts.map((post) => {
-    const properties = Object.values(post?.properties);
-    const multiSelectProperties = properties
-      .filter((property) => property?.type === "multi_select")
-      ?.map((prop) => {
-        return prop?.multi_select?.map((value) => {
-          return (
-            <div className="cursor-pointer m-2 pl-2 pr-2 pb-1 w-full shadow-lg bg-[#89cff0] rounded-sm">
-              {value?.name}
-            </div>
-          );
-        });
-      });
-    return <div className="flwz">{multiSelectProperties}</div>;
-  });
+  // const multiSelect = posts.map((post) => {
+  //  ;
+  // });
 
   const Select = posts.map((post) => {
     const properties = Object.values(post.properties);
@@ -98,11 +86,12 @@ function index({ posts ,datablock}) {
       .filter((property) => property.type === "select")
       .map((prop) => {
         return (
-          <div className="cursor-pointer m-2 pl-2 pr-2 pb-1 w-full shadow-lg bg-[#89cff0] rounded-sm">
+          <div className="cursor-pointer flex m-2 w-full shadow-lg bg-[#89cff0] rounded-sm">
             {prop?.select?.name}
           </div>
         );
       });
+      console.log('selectProperties',selectProperties)
     return <div>{selectProperties}</div>;
   });
 
@@ -265,68 +254,54 @@ function index({ posts ,datablock}) {
   });
 
   return (
-    <div className=" w-full flex flex-col items-center justify-center min-h-screen max-w-screen-2xl">
-      <h2 className="mb-[70px]">All Posts</h2>
-      <div className="w-4/5 grid grid-cols-3 gap-10 justify-center items-center">
+    <div className=" min-h-screen flex flex-col justify-center items-center max-w-screen-2xl sm:m-8">
+      <h2 className="mb-[70px] text-3xl">All Posts</h2>
+      <div className="grid grid-flow-row-dense xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 mx-auto ">
         {posts.map((post) => {
-          console.log(
-            "postingggggggggg",
-            post?.properties?.Name?.title[0]?.text?.content
-          );
+          // console.log(
+          //   "postingggggggggg",
+          //   post?.properties?.Name?.title[0]?.text?.content
+          // );
           const date = new Date(post.last_edited_time).toLocaleString("en-US", {
             month: "short",
             day: "2-digit",
             year: "numeric",
           });
+          const properties = Object.values(post?.properties);
+          const multiSelectProperties = properties
+            .filter((property) => property?.type === "multi_select")
+            ?.map((prop) => {
+              return prop?.multi_select?.map((value) => {
+                return (
+                  <div className="cursor-pointer text-lg ml-4 px-2 py-[2px] flex justify-around shadow-md bg-[#89cff0] rounded-sm">
+                    {value?.name}
+                  </div>
+                );
+              });
+            });
           return (
             <Link className="" href={`/${post.id}`}>
-              <div className=" justify-center items-center cursor-pointer hover:shadow-[0_0_30px_3px_rgba(0,0,0,0.3)] hover:scale-105 hover:transition hover:delay-150 hover:duration-500 hover:ease-in-out rounded-2xl bg-white backdrop-blur-2xl bg-opacity-70 shadow-[0_0_10px_3px_rgba(0,0,0,0.3)]">
+              <div className=" relative m-8 justify-center items-center cursor-pointer hover:scale-105 hover:-translate-y-1 transition hover:delay-150 duration-300 ease-in-out rounded-lg bg-white">
                 <div className="w-full">
                   <img
                     src={post?.cover?.external?.url}
                     alt=""
-                    className="w-full min-h-[210px] max-h-[210px] object-cover rounded-t-2xl"
+                    className="w-full min-h-[210px] max-h-[210px] object-cover rounded-lg"
                   />
                 </div>
 
-                <div className="py-2 px-3">
-                  <div className="flex items-center gap-3">
-                    <span
-                      className={`px-2 py-1 rounded-md cursor-pointer ${
-                        "bg-" + post?.properties?.Select?.select?.color + "-400"
-                      }`}
-                    >
-                      {post?.properties?.Select?.select?.name}
-                    </span>
-                    <div className="w-1 h-1 rounded-full bg-neutral-500"></div>
+                <div className="py-2 px-2">
+                  <div className="flex items-center justify-between py-2">
+                    <div className=" flex">{multiSelectProperties}</div>
                     <span className="text-neutral-500">{date}</span>
                   </div>
-                  <h1 className="text-2xl font-semibold">
-                    {post?.properties?.Name?.title[0]?.text?.content}
-                  </h1>
-                  <div className="  flex-grow h-[90px] p-3">
+                 <div className="flex px-3 py-2">
+                  <h1 className=" text-xl font-bold ">
+                      {post?.properties?.Name?.title[0]?.text?.content}
+                    </h1>
+                 </div>
+                  <div className=" p-3 text-lg line-clamp-3">
                     <Text text={post?.properties?.Text?.rich_text} />
-                  </div>
-                  <div className="flex gap-2 items-center justify-start  h-[90px]  w-full z-50 ">
-                    {Object.values(post?.properties)
-                      .filter((property) => property?.type === "files")
-                      .map((prop) =>
-                        prop?.files?.map((item) => (
-                          <div
-                            key={item?.name}
-                            className="cursor-pointer flex gap-2 items-center"
-                          >
-                            <Link href={item?.file?.url} className="">
-                              <p className="text-primary-700">{item?.name}</p>
-                            </Link>
-                            <OpenInNewRounded
-                              fontSize="small"
-                              className="text-primary-800"
-                            />
-                            <div className="w-1 h-1 rounded-full bg-neutral-500"></div>
-                          </div>
-                        ))
-                      )}
                   </div>
                 </div>
               </div>
