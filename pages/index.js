@@ -2,6 +2,7 @@
 import axios from "axios";
 import Link from "next/link";
 import React, { Fragment } from "react";
+import { useEffect } from "react";
 import { getBlocks, getDatabase, getPage } from "../library/notion";
 
 export const databaseId = "4c699e3e758d41248751780fefed7d23";
@@ -19,12 +20,12 @@ export const Text = ({ text }) => {
   }
   return text.map((value) => {
 
-    console.log("value", value);
+    // console.log("value", value);
 
     const {
       annotations: { bold, code, color, italic, strikethrough, underline },text
     } = value;
-    console.log('text',text)
+    // console.log('text',text)
     return (
       <span
         className={[
@@ -42,8 +43,19 @@ export const Text = ({ text }) => {
   });
 };
 
-function index({ posts }) {
+function index({ posts ,datablock}) {
   console.log("posts", posts);
+  console.log('datablock',datablock)
+ 
+  async function ffff(){
+    const getdata = await axios.post(`/api/database`, {
+      databaseId:'4c699e3e758d41248751780fefed7d23'
+      })
+      console.log('getdata',getdata)
+  }
+  useEffect(()=>{
+    ffff()
+  },[])
 
   return (
 
@@ -112,13 +124,18 @@ export default index;
 
 export const getStaticProps = async () => {
   const database = await getDatabase(databaseId);
-  //const database =await getBlocks(pageId);
+  const datablock =await getBlocks(databaseId);
+  
+  
+
 
   // console.log("dataaaaaa", database);
 
   return {
     props: {
       posts: database,
+      datablock:datablock,
+
     },
     revalidate: 1,
   };
