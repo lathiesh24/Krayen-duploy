@@ -1,4 +1,5 @@
 // import { getDatabase } from "@notionhq/client/build/src/api-endpoints";
+import { OpenInNewRounded } from "@mui/icons-material";
 import axios from "axios";
 import Link from "next/link";
 import React, { Fragment } from "react";
@@ -250,26 +251,8 @@ function index({ posts }) {
     return <div>{urlsProperties}</div>;
   });
 
-  const Filemedia = posts.map((post) => {
-    const properties = Object.values(post?.properties);
-    const FilemediaProperties = properties
-      .filter((property) => property?.type === "files")
-      .map((prop) => {
-        return prop?.files?.map((item) => {
-          return (
-            <div>
-              <Link href={item?.file?.url}>
-                <a>{item?.name}</a>
-              </Link>
-            </div>
-          );
-        });
-      });
-    return <div>{FilemediaProperties}</div>;
-  });
-
   return (
-    <div className=" w-full flex flex-col items-center justify-center min-h-screen max-w-screen-2xl bg-white">
+    <div className=" w-full flex flex-col items-center justify-center min-h-screen max-w-screen-2xl">
       <h2 className="mb-[70px]">All Posts</h2>
       <div className="w-4/5 grid grid-cols-3 gap-10 justify-center items-center">
         {posts.map((post) => {
@@ -284,7 +267,7 @@ function index({ posts }) {
           });
           return (
             <Link className="" href={`/${post.id}`}>
-              <div className="shadow-[0_0_40px_2px_rgba(0,0,0,0.3)] justify-center items-center rounded-2xl">
+              <div className="shadow-[0_0_40px_2px_rgba(0,0,0,0.3)] justify-center items-center cursor-pointer hover:shadow-[0_0_30px_3px_rgba(0,0,0,0.3)] hover:scale-105 hover:transition hover:delay-150 hover:duration-500 hover:ease-in-out rounded-2xl bg-white backdrop-blur-2xl bg-opacity-70 shadow-[0_0_10px_3px_rgba(0,0,0,0.3)]">
                 <div className="w-full">
                   <img
                     src={post?.cover?.external?.url}
@@ -308,10 +291,30 @@ function index({ posts }) {
                   <h1 className="text-2xl font-semibold">
                     {post?.properties?.Name?.title[0]?.text?.content}
                   </h1>
-                  <div className="  flex-grow h-[90px] p-3 ">
-                    {/* <Text text={post.properties.Text.rich_text} /> */}
+                  <div className="  flex-grow h-[90px] p-3">
+                    <Text text={post?.properties?.Text?.rich_text} />
                   </div>
-                  <div className="flex items-center  w-[60px]">{Filemedia}</div>
+                  <div className="flex gap-2 items-center justify-start  h-[90px]  w-full z-50 ">
+                    {Object.values(post?.properties)
+                      .filter((property) => property?.type === "files")
+                      .map((prop) =>
+                        prop?.files?.map((item) => (
+                          <div
+                            key={item?.name}
+                            className="cursor-pointer flex gap-2 items-center"
+                          >
+                            <Link href={item?.file?.url} className="">
+                              <p className="text-primary-700">{item?.name}</p>
+                            </Link>
+                            <OpenInNewRounded
+                              fontSize="small"
+                              className="text-primary-800"
+                            />
+                            <div className="w-1 h-1 rounded-full bg-neutral-500"></div>
+                          </div>
+                        ))
+                      )}
+                  </div>
                 </div>
               </div>
             </Link>
