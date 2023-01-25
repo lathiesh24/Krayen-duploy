@@ -273,7 +273,7 @@ function index({ posts ,datablock}) {
             ?.map((prop) => {
               return prop?.multi_select?.map((value) => {
                 return (
-                  <div className="cursor-pointer text-lg ml-4 px-2 py-[2px] flex justify-around shadow-md bg-[#89cff0] rounded-sm">
+                  <div className="cursor-pointer text-lg ml-4 px-2 py-[1px] flex justify-around shadow-md bg-[#89cff0] rounded-sm">
                     {value?.name}
                   </div>
                 );
