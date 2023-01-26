@@ -3,7 +3,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
 import DetailsRendering from "../components/DetailsRendering";
-import Footer from "../components/Footer";
+import Footer2 from "../components/Footer2";
 import Navbar from "../components/Navbar";
 import { getDatabase } from "../library/notion";
 import Detailspage from '../components/Detailspage'
@@ -91,7 +91,7 @@ export default function MyModal() {
         <Navbar />
       </div>
     
-      <div className="max-w-6xl mx-auto">
+      <div className="w-4/5 mx-auto 2xl:w-5/6 xl:w-4/6">
           <div className="mt-20 mb-1 text-left">  
             <button
               type="button"
@@ -269,10 +269,11 @@ export default function MyModal() {
          <div className="mt-1 ">
             <Detailspage/>
          </div>
-         <div className="mt-2">
-            <Footer  />
-         </div>
-      </div>      
+      </div> 
+
+      <div className="mt-2">
+            <Footer2  />
+      </div>     
     </div>
     
   );
