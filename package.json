@@ -9,7 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/cache": "latest",
+    "@emotion/react": "^11.10.5",
+    "@emotion/server": "latest",
+    "@emotion/styled": "latest",
     "@headlessui/react": "^1.7.7",
+    "@mui/icons-material": "latest",
+    "@mui/material": "latest",
+    "@mui/styled-engine-sc": "^5.11.0",
     "@notionhq/client": "^2.2.3",
     "@tailwindcss/line-clamp": "^0.4.2",
     "ace-builds": "^1.14.0",
@@ -30,6 +37,8 @@
     "react-router-dom": "^6.4.3",
     "react-twitter-embed": "^4.0.4",
     "react-youtube": "^10.1.0",
+    "sass": "^1.57.1",
+    "styled-component": "^2.8.0",
     "tiny-request-router": "^1.2.2"
   },
   "devDependencies": {

@@ -1,16 +1,18 @@
 // import { getDatabase } from "@notionhq/client/build/src/api-endpoints";
+// import { OpenInNewRounded } from "@mui/icons-material";
 import axios from "axios";
 import Link from "next/link";
 import React, { Fragment } from "react";
+import { useEffect } from "react";
 import { getBlocks, getDatabase, getPage } from "../library/notion";
 
-export const databaseId = "4c699e3e758d41248751780fefed7d23";
+//export const databaseId = "4c699e3e758d41248751780fefed7d23";
 // export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";
 
 // export const databaseId = 'e649f6c751994c0ea85ac6cd6495e7f4';
 // //export const pageId='4606f5e400c34d68b8a0353328ad0c3c'
 
-// export const databaseId = "e649f6c751994c0ea85ac6cd6495e7f4";
+export const databaseId = "e649f6c751994c0ea85ac6cd6495e7f4";
 // export const pageId = "eb889e735554462ca107e68cd7ace229";
 
 export const Text = ({ text }) => {
@@ -18,13 +20,14 @@ export const Text = ({ text }) => {
     return null;
   }
   return text.map((value) => {
-    console.log("value", value);
+
+    // console.log("value", value);
 
     const {
       annotations: { bold, code, color, italic, strikethrough, underline },
       text,
     } = value;
-    console.log("text", text);
+    // console.log('text',text)
     return (
       <span
         className={[
@@ -46,8 +49,19 @@ export const Text = ({ text }) => {
   });
 };
 
-function index({ posts }) {
-  console.log("posts", posts);
+function index({ posts ,datablock}) {
+  // console.log("posts", posts);
+  // console.log('datablock',datablock)
+ 
+  async function ffff(){
+    const getdata = await axios.post(`/api/database`, {
+      databaseId:'4c699e3e758d41248751780fefed7d23'
+      })
+      console.log('getdata',getdata)
+  }
+  useEffect(()=>{
+    ffff()
+  },[])
 
   //Title
   const title = posts.map((post) => {
@@ -62,21 +76,9 @@ function index({ posts }) {
     );
   });
 
-  const multiSelect = posts.map((post) => {
-    const properties = Object.values(post?.properties);
-    const multiSelectProperties = properties
-      .filter((property) => property?.type === "multi_select")
-      ?.map((prop) => {
-        return prop?.multi_select?.map((value) => {
-          return (
-            <div className="cursor-pointer m-2 pl-2 pr-2 pb-1 w-full shadow-lg bg-[#89cff0] rounded-sm">
-              {value?.name}
-            </div>
-          );
-        });
-      });
-    return <div className="flwz">{multiSelectProperties}</div>;
-  });
+  // const multiSelect = posts.map((post) => {
+  //  ;
+  // });
 
   const Select = posts.map((post) => {
     const properties = Object.values(post.properties);
@@ -84,11 +86,12 @@ function index({ posts }) {
       .filter((property) => property.type === "select")
       .map((prop) => {
         return (
-          <div className="cursor-pointer m-2 pl-2 pr-2 pb-1 w-full shadow-lg bg-[#89cff0] rounded-sm">
+          <div className="cursor-pointer flex m-2 w-full shadow-lg bg-[#89cff0] rounded-sm">
             {prop?.select?.name}
           </div>
         );
       });
+      console.log('selectProperties',selectProperties)
     return <div>{selectProperties}</div>;
   });
 
@@ -174,7 +177,7 @@ function index({ posts }) {
     return <div>{StatusProperties}</div>;
   });
 
-  const DateProp = posts.map((post) => {
+const DateProp = posts.map((post) => {
     const properties = Object.values(post.properties);
     const DateProperties = properties
       .filter((property) => property.type === "date")
@@ -250,68 +253,56 @@ function index({ posts }) {
     return <div>{urlsProperties}</div>;
   });
 
-  const Filemedia = posts.map((post) => {
-    const properties = Object.values(post?.properties);
-    const FilemediaProperties = properties
-      .filter((property) => property?.type === "files")
-      .map((prop) => {
-        return prop?.files?.map((item) => {
-          return (
-            <div>
-              <Link href={item?.file?.url}>
-                <a>{item?.name}</a>
-              </Link>
-            </div>
-          );
-        });
-      });
-    return <div>{FilemediaProperties}</div>;
-  });
-
   return (
-    <div className=" w-full flex flex-col items-center justify-center min-h-screen max-w-screen-2xl bg-white">
-      <h2 className="mb-[70px]">All Posts</h2>
-      <div className="w-4/5 grid grid-cols-3 gap-10 justify-center items-center">
+    <div className="flex flex-col items-center justify-center min-h-screen max-w-screen-2xl sm:m-8">
+      <h2 className="mb-[70px] text-3xl">All Posts</h2>
+      <div className="grid grid-flow-row-dense mx-auto xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 ">
         {posts.map((post) => {
-          console.log(
-            "postingggggggggg",
-            post?.properties?.Name?.title[0]?.text?.content
-          );
+          // console.log(
+          //   "postingggggggggg",
+          //   post?.properties?.Name?.title[0]?.text?.content
+          // );
           const date = new Date(post.last_edited_time).toLocaleString("en-US", {
             month: "short",
             day: "2-digit",
             year: "numeric",
           });
+          const properties = Object.values(post?.properties);
+          const multiSelectProperties = properties
+            .filter((property) => property?.type === "multi_select")
+            ?.map((prop) => {
+              return prop?.multi_select?.map((value) => {
+                return (
+                  <div className="cursor-pointer text-lg ml-4 px-2 py-[1px] flex justify-around shadow-md bg-[#89cff0] rounded-sm">
+                    {value?.name}
+                  </div>
+                );
+              });
+            });
           return (
             <Link className="" href={`/${post.id}`}>
-              <div className="shadow-[0_0_40px_2px_rgba(0,0,0,0.3)] justify-center items-center rounded-2xl">
+              <div className="relative items-center justify-center m-8 transition duration-300 ease-in-out bg-white rounded-lg cursor-pointer hover:scale-105 hover:-translate-y-1 hover:delay-150">
                 <div className="w-full">
                   <img
                     src={post?.cover?.external?.url}
                     alt=""
-                    className="w-full min-h-[210px] max-h-[210px] object-cover rounded-t-2xl"
+                    className="w-full min-h-[210px] max-h-[210px] object-cover rounded-lg"
                   />
                 </div>
 
-                <div className="py-2 px-3">
-                  <div className="flex items-center gap-3">
-                    <span
-                      className={`px-2 py-1 rounded-md cursor-pointer ${
-                        "bg-" + post?.properties?.Select?.select?.color + "-400"
-                      }`}
-                    >
-                      {post?.properties?.Select?.select?.name}
-                    </span>
-                    <div className="w-1 h-1 rounded-full bg-neutral-500"></div>
+                <div className="px-2 py-2">
+                  <div className="flex items-center justify-between py-2">
+                    <div className="flex ">{multiSelectProperties}</div>
                     <span className="text-neutral-500">{date}</span>
                   </div>
-                  <h1 className="text-2xl font-semibold">
-                    {post?.properties?.Name?.title[0]?.text?.content}
-                  </h1>
-                  <div className="  flex-grow h-[90px] p-3 ">
-                    {/* <Text text={post.properties.Text.rich_text} /> */}
+                 <div className="flex px-3 py-2">
+                  <h1 className="text-xl font-bold ">
+                      {post?.properties?.Name?.title[0]?.text?.content}
+                    </h1>
+                 </div>
+                  <div className="p-3 text-lg line-clamp-3">
+                    <Text text={post?.properties?.Text?.rich_text} />
                   </div>
-                  <div className="flex items-center  w-[60px]">{Filemedia}</div>
                 </div>
               </div>
             </Link>
@@ -328,10 +319,18 @@ export default index;
 
 export const getStaticProps = async () => {
   const database = await getDatabase(databaseId);
+  const datablock =await getBlocks(databaseId);
+  
+  
+
+
+  // console.log("dataaaaaa", database);
 
   return {
     props: {
       posts: database,
+      datablock:datablock,
+
     },
     revalidate: 1,
   };
