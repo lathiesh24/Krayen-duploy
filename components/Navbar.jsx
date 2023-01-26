@@ -20,7 +20,7 @@ const Navbar = () => {
        <p className='ml-1 font-medium'>KRAYEN NOTION SITE</p> 
       </div>
       
-      <div onClick={()=>setOpen(!open)} className='text-3xl absolute right-8 top-6 cursor-pointer md:hidden'>
+      <div onClick={()=>setOpen(!open)} className='text-3xl absolute right-8 top-3 cursor-pointer md:hidden'>
       <ion-icon name={open ? 'close':'menu'}></ion-icon>
       </div>
 
