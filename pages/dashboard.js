@@ -8,9 +8,8 @@ import Navbar from "../components/Navbar";
 import { getDatabase } from "../library/notion";
 import Detailspage from '../components/Detailspage'
 
+
 export default function MyModal() {
-
-
 
   const router = useRouter();
   let [isOpen, setIsOpen] = useState(false);
@@ -20,6 +19,11 @@ export default function MyModal() {
   const [pageId, setPageId] = useState("");
   const [databaseId, setDatabaseId] = useState("");
 
+
+  function openSettings (){
+  router.push('/settings');
+  }
+   
   function closeModal() {
     setIsOpen(false);
   }
@@ -42,6 +46,8 @@ export default function MyModal() {
     setIsOpen(false);
     setSubModalIsOpen(false);
   }
+
+
   function validatePageUrl() {
     const path = pageUrl.split("/")[3];
     console.log(path);
@@ -81,18 +87,35 @@ export default function MyModal() {
   ];
   return (
     <div>
-      <div className="fixed inset-0 ">
-        {/* <Navbar /> */}
+      <div>
+        <Navbar />
       </div>
-      
+    
+      <div className="max-w-6xl mx-auto">
+          <div className="mt-20 mb-1 text-left">  
+            <button
+              type="button"
+              onClick={openModal}
+              className="px-4 py-2 text-sm font-medium text-white bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+            >
+              Create New site
+            </button>
+             <button
+              href='/settings'
+              onClick={openSettings}
+              className="px-4 py-2 text-sm font-medium text-white bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+            >
+             Settings
+            </button>       
+         </div>
       <div className="flex items-center justify-center">
-        <button
+        {/* <button
           type="button"
           onClick={openModal}
           className="px-4 py-2 text-sm font-medium text-white bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
         >
           Create a site
-        </button>
+        </button> */}
          <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
           <Transition.Child
@@ -243,10 +266,13 @@ export default function MyModal() {
         </Dialog>
       </Transition>
       </div>
-     
-      <Detailspage/>
-      <Footer className="" />
-      
+         <div className="mt-1 ">
+            <Detailspage/>
+         </div>
+         <div className="mt-2">
+            <Footer  />
+         </div>
+      </div>      
     </div>
     
   );

@@ -1,11 +1,40 @@
 import React from 'react'
-im
-
+import Navbar from "../components/Navbar";
+import Footer from '../components/Footer'
 const settings = () => {
   return (
-    <div>
+    <div className="">
        <div className="fixed inset-0"><Navbar/></div>
+       <div 
+       //className="max-w-2xl mt-20 font-sans text-black lg:mx-auto sm:mx-auto sm:max-w-3xl sm:items-center sm:justify-center"
+      //  
+       className="max-w-6xl mx-auto mt-20 font-sans text-black"
+       >
+           <div className='mb-5 font-sans text-xl font-semibold'>
+            Settings
+          </div>
+        <div className="p-10 text-white bg-black rounded-md">
+          <div >
+            <div className="mb-10 font-sans">
+              <div>Your Name</div>
+              <div>Rakesh Mahendran</div>
+            </div>
+             <div className="font-sans">
+              <div>Your Email</div>
+              <div>rakeshmahendran99@gmail.com</div>
+            </div>
+          </div>
+        </div>
+          <div className="my-5">
+           <div className="my-5 font-sans text-xl font-semibold"> Delete Account </div>
+           <div  className="p-8 text-white bg-black rounded-md">
+              <button>Delete Account</button>
+           </div>
+          </div>
+       </div>
+       <div><Footer/></div>
     </div>
+
   )
 }
 

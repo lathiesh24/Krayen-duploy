@@ -2,7 +2,7 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <div  style={{display:'flex' , flexDirection:'row', margin:"100px"}}>
+    <div  className="flex flex-row mx-64">
       <div className='' >
         <ul className="-ml-16" >
             <li className='font-bold'>Company</li>
