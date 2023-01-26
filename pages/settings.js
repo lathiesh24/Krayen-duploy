@@ -32,7 +32,7 @@ const settings = () => {
            </div>
           </div>
        </div>
-       <div className="fixed inset-0 w-screen mx-auto"><Footer2/></div>
+       <div className=""><Footer2/></div>
     </div>
 
   )

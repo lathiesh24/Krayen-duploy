@@ -12,8 +12,8 @@ const Navbar = () => {
       {name:"Settings",link:"/settings"}
     ];
     let [open,setOpen]=useState(false);
-
-  function openDashboard (){
+    
+  function openDashboard () {
   router.push('/settings');
   }
   return (
@@ -42,7 +42,7 @@ const Navbar = () => {
         <button 
         href='/settings'
         onClick={openDashboard}
-         className="bg-red-600 text-white font-[Poppins] py-2 px-6 rounded md:ml-8 hover:bg-indigo-400 
+        className="bg-red-600 text-white font-[Poppins] py-2 px-6 rounded md:ml-8 hover:bg-indigo-400 
     duration-500"
         >
           Create a blog

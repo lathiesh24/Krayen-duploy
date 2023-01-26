@@ -5,7 +5,7 @@ import Link from "next/link";
 import React, { Fragment } from "react";
 import { useEffect } from "react";
 import { getBlocks, getDatabase, getPage } from "../library/notion";
-
+import BlogNav from '../components/BlogNav'
 //export const databaseId = "4c699e3e758d41248751780fefed7d23";
 // export const pageId = "4606f5e400c34d68b8a0353328ad0c3c";
 
@@ -255,6 +255,7 @@ const DateProp = posts.map((post) => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen max-w-screen-2xl sm:m-8">
+      <div><BlogNav/></div>
       <h2 className="mb-[70px] text-3xl">All Posts</h2>
       <div className="grid grid-flow-row-dense mx-auto xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 ">
         {posts.map((post) => {
