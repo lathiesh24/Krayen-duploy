@@ -90,14 +90,14 @@ export default function MyModal() {
       <div>
         <Navbar />
       </div>
-    
+      
       <div className="w-4/5 mx-auto 2xl:w-5/6 xl:w-4/6">
           <div className="mt-20 mb-1 text-left">  
-            <button
-              type="button"
-              onClick={openModal}
-              className="px-4 py-2 text-sm font-medium text-white bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-            >
+        <button
+          type="button"
+          onClick={openModal}
+          className="px-4 py-2 text-sm font-medium text-white bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+        >
               Create New site
             </button>
              <button
@@ -169,7 +169,7 @@ export default function MyModal() {
             </div>
           </div>
         </Dialog>
-      </Transition>
+         </Transition>
       <Transition appear show={subModalIsOpen} as={Fragment}>
         <Dialog as="div" className="relative z-30" onClose={submodalclose}>
           <Transition.Child
@@ -267,10 +267,10 @@ export default function MyModal() {
       </Transition>
       </div>
          <div className="mt-1 ">
-            <Detailspage/>
+      <Detailspage/>
          </div>
       </div> 
-
+      
       <div className="mt-2">
             <Footer2  />
       </div>     
