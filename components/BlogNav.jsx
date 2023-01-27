@@ -14,7 +14,7 @@ const Navbar = () => {
     let [open,setOpen]=useState(false);
     
   function openDashboard () {
-  router.push('/settings');
+  router.push('/dashboard');
   }
   return (
     <div className='fixed top-0 left-0 w-full shadow-md'>
@@ -40,7 +40,7 @@ const Navbar = () => {
           ))
         }
         <button 
-        href='/settings'
+        // href='/settings'
         onClick={openDashboard}
         className="bg-red-600 text-white font-[Poppins] py-2 px-6 rounded md:ml-8 hover:bg-indigo-400 
     duration-500"
