@@ -2,12 +2,12 @@ import "../styles/globals.css";
 
 import "react-notion-x/src/styles.css";
 import Head from "next/head";
-import Navbar from "../components/Navbar";
+import BlogNav from "../components/BlogNav";
 
 function MyApp({ Component, pageProps }) {
   return (
     <>
-      <Navbar />
+      <BlogNav />
       <Head>
         <script src="https://www.youtube.com/iframe_api"></script>
       </Head>
