@@ -2,9 +2,10 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <div  className="flex flex-row mx-64">
+    <div className="mx-auto w-1/5">
+         <div  className="flex space-x-9 flex-row ">
       <div className='' >
-        <ul className="-ml-16" >
+        <ul className="-ml-64" >
             <li className='font-bold'>Company</li>
             <li><a href="">Twitter</a></li>
             <li><a href="">Terms</a></li>
@@ -15,7 +16,8 @@ const Footer = () => {
         </ul>
       </div>
       <div>
-        <ul className="ml-16"><li className='font-bold'>Resources</li>
+        <ul className="ml-64"> 
+            <li className='font-bold'>Resources</li>
             <li><a href="">Docs</a></li>
             <li><a href="">Blog</a></li>
             <li><a href="">Icons generator</a></li>
@@ -25,12 +27,14 @@ const Footer = () => {
         </ul>
       </div>
        <div>
-        <ul className="ml-16"><li className='font-bold'>Notion templates</li>
+        <ul className="ml-64">
+            <li className='font-bold'>Notion templates</li>
             <li><a href="">Docs template</a></li>
             <li><a href="">Blog template</a></li>
             <li><a href="">Changelog template</a></li>
         </ul>
       </div>
+    </div>
     </div>
   )
 }

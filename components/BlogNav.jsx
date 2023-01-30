@@ -5,15 +5,15 @@ import { useRouter } from "next/router";
 const Navbar = () => {
     const router = useRouter()
     let Links =[
-      {name:"Blogs",link:"/"},
+      {name:"Home",link:"/dashboard"},
       {name:"Login",link:"/login"},
       {name:"About",link:"/"},
       {name:"Contact",link:"/"},
       {name:"Settings",link:"/settings"}
     ];
     let [open,setOpen]=useState(false);
-
-  function openDashboard (){
+    
+  function openDashboard () {
   router.push('/dashboard');
   }
   return (
@@ -27,7 +27,7 @@ const Navbar = () => {
        <p className='ml-1 font-medium'>KRAYEN NOTION SITE</p> 
       </div>
       
-      <div onClick={()=>setOpen(!open)} className='absolute text-3xl cursor-pointer right-8 top-3 md:hidden'>
+      <div onClick={()=>setOpen(!open)} className='text-3xl absolute right-8 top-3 cursor-pointer md:hidden'>
       <ion-icon name={open ? 'close':'menu'}></ion-icon>
       </div>
 
@@ -42,7 +42,7 @@ const Navbar = () => {
         <button 
         // href='/settings'
         onClick={openDashboard}
-         className="bg-red-600 text-white font-[Poppins] py-2 px-6 rounded md:ml-8 hover:bg-indigo-400 
+        className="bg-red-600 text-white font-[Poppins] py-2 px-6 rounded md:ml-8 hover:bg-indigo-400 
     duration-500"
         >
           Create a blog

@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from "../components/Navbar";
-import Footer from '../components/Footer'
+import Footer2 from '../components/Footer2'
 const settings = () => {
   return (
     <div className="">
@@ -8,7 +8,7 @@ const settings = () => {
        <div 
        //className="max-w-2xl mt-20 font-sans text-black lg:mx-auto sm:mx-auto sm:max-w-3xl sm:items-center sm:justify-center"
       //  
-       className="max-w-6xl mx-auto mt-20 font-sans text-black"
+       className="w-4/5 mx-auto mt-20 font-sans text-black sm:mx-auto"
        >
            <div className='mb-5 font-sans text-xl font-semibold'>
             Settings
@@ -32,7 +32,7 @@ const settings = () => {
            </div>
           </div>
        </div>
-       <div><Footer/></div>
+       <div className=""><Footer2/></div>
     </div>
 
   )

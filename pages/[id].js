@@ -2,11 +2,11 @@ import { makeConsoleLogger } from "@notionhq/client/build/src/logging";
 import { useEffect, useState } from "react";
 
 import { Googlemapsembed } from "../components/Googlemapsembed";
+import Navbar from "../components/Navbar";
 import { Spotifyembed } from "../components/Spotifyembed";
 import { Tweetembed } from "../components/Tweetembed";
 import { getPage, getBlocks, getDatabase } from "../library/notion";
-// import { PlayIcon } from "@heroicons/react/24/solid";
-
+// import { PlayIcon } from "@heroicons/react/24/solid";';
 
 
 
@@ -14,7 +14,7 @@ function pagedatas({ page, pageblock, child }) {
    
   console.log("page", page);
   console.log("pageblock", pageblock);
-
+  
 
   const datasOFBlock = child;
   const definedBlock = datasOFBlock || [];
@@ -73,7 +73,7 @@ function pagedatas({ page, pageblock, child }) {
       return (
         <div
           key={block?.id}
-          className=" my-5 text-3xl font-medium text-gray-800 capitalize"
+          className="my-5 text-3xl font-medium text-gray-800 capitalize "
         >
           {block?.heading_3?.rich_text.map((item) => item?.text?.content)}
         </div>
@@ -82,7 +82,7 @@ function pagedatas({ page, pageblock, child }) {
       return (
         <div
           key={block?.id}
-          className="text-4xl my-5 font-medium text-gray-800 capitalize "
+          className="my-5 text-4xl font-medium text-gray-800 capitalize "
         >
           {block?.heading_2?.rich_text.map((item) => item?.text?.content)}
         </div>
@@ -91,7 +91,7 @@ function pagedatas({ page, pageblock, child }) {
       return (
         <div
           key={block?.id}
-          className="text-5xl my-5 font-medium leading-tight capitalize"
+          className="my-5 text-5xl font-medium leading-tight capitalize"
         >
           {block?.heading_1?.rich_text.map((item) => item?.text?.content)}
         </div>
@@ -143,21 +143,21 @@ function pagedatas({ page, pageblock, child }) {
       // console.log('newArray',newArray)
       // const subval = 
       return (
-        <div className=" my-5  ml-0 ">
+        <div className="my-5 ml-0 ">
            <div
              className="flex items-center">
              <div className={`h-[18px] cursor-pointer ${isToggled ? 'transform rotate-90 ease-in-out': null}`} onClick={() => setIsToggled(!isToggled)} >
                  To
               </div>  
-              <div className=" ml-2 text-lg font-medium">
+              <div className="ml-2 text-lg font-medium ">
               {mainval}
               </div>
             </div>
             {isToggled && (
-              <div className="ml-7 mt-2 text-base">
+              <div className="mt-2 text-base ml-7">
                 {newArray?.map((val)=>{
                  return (
-                  <div className="text-gray-700 my-2">{val?.text.link == null ? val?.text.content : <a href={val?.text.link.url}>{val?.text.content}</a> }</div>
+                  <div className="my-2 text-gray-700">{val?.text.link == null ? val?.text.content : <a href={val?.text.link.url}>{val?.text.content}</a> }</div>
                  )
                  })}
               </div>
@@ -181,7 +181,7 @@ function pagedatas({ page, pageblock, child }) {
           className={`text-${colorToDo}-400 my-5 flex items-center font-normal text-base  ${classNameCheck} leading-relaxed mb-4`}
         >
           <input type="checkbox" checked={block?.to_do?.checked} readOnly={true}/>
-          <div className=" ml-3">
+          <div className="ml-3 ">
             {block?.to_do?.rich_text.map((item) => item?.text?.content)}
           </div>
         </div>
@@ -189,7 +189,7 @@ function pagedatas({ page, pageblock, child }) {
 
     } else if (block.type == "numbered_list_item") {
       return (
-        <li className="list-decimal my-5 text-md">
+        <li className="my-5 list-decimal text-md">
           {block.numbered_list_item.rich_text.map(
             (item) => item?.text?.content
           )}
@@ -198,14 +198,14 @@ function pagedatas({ page, pageblock, child }) {
 
     } else if (block.type == "video" ) {
         return (
-            <div className=" my-5">
+            <div className="my-5 ">
                 {/* <span>{block.video.caption}</span> */}
                 <a href={`${block.video.external.url}`}>{block.video.external.url}</a>
             </div>
         )
     } else if (block.type == "image") {
         return (
-            <div className=" my-5">
+            <div className="my-5 ">
               <img src={`${block.image.file.url}`} alt="" />               
             </div>
         )
@@ -224,13 +224,13 @@ function pagedatas({ page, pageblock, child }) {
       
     else if (block && block.type === "paragraph" && block.paragraph && block.paragraph.rich_text && block.paragraph.rich_text[0] && block.paragraph.rich_text[0].type === "equation" && block.paragraph.rich_text[0].equation) {
     return (
-        <div className=" my-5">
+        <div className="my-5 ">
             {block.paragraph.rich_text[0].equation.expression}      
         </div>
     );
     }else if (block.type == "bulleted_list_item") {
       return (
-        <ul className="max-w-md  my-5 space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
+        <ul className="max-w-md my-5 space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
             <li className="text-md">
             {block.bulleted_list_item.rich_text[0].text.content}
             </li>
@@ -287,11 +287,95 @@ function pagedatas({ page, pageblock, child }) {
   });
 
 
-  return (
-    <div className="flex items-center justify-center max-w-screen-2xl px-10 sm:px-20 md:px-36 lg:px-52">
-      <div className=" xl:w-[800px] min-w-[400px] ">{codeBlocks}</div>;
+
+  
+  
+
+  
+      const properties = Object.values(page.properties);
+
+      const titleProperties = properties.filter(property => property.type === 'title')?.map((prop)=>{
+          //  console.log("prop",prop.title[0].text.content)
+          return ( prop?.title.map((item)=>{
+            return  <div>{item.text.content}</div>
+          })
+          )
+      })
+          // const date = new Date(p.last_edited_time).toLocaleString("en-US", {
+          //   month: "short",
+          //   day: "2-digit",
+          //   year: "numeric",
+          // });
+          // const title = properties[24].title[0].text.content
+
+
+          const multiSelectProperties = properties
+            .filter((property) => property?.type === "multi_select")
+            ?.map((prop) => {
+              return prop?.multi_select?.map((value) => {
+                return (
+                  <div className="cursor-pointer text-xs ml-4 px-2 py-[1px] flex justify-around shadow-md bg-[#89cff0] rounded-sm">
+                    {value?.name}
+                  </div>
+                );
+              });
+            });
+
+
+      const textureProperties = properties
+      .filter((property) => property?.type === "rich_text")
+      ?.map((prop) => {
+        return prop?.rich_text?.map((item) => {
+          return <div>{item?.text?.content}</div>;
+        });
+      });
+return (
+ <div className="flex flex-col px-10 sm:px-20 md:px-36 lg:px-64 xl:px-72">
+  <div><Navbar/></div>
+    <div className="mt-20 bg-gray-200 rounded-md ">
+      <div className="px-10 border-b-4 border-black">
+          <div className="my-4">
+            {properties
+              .filter(property => property.type === 'title')
+              .map(prop =>
+                prop.title.map(item => (
+                  <div key={item.id} className="font-serif text-4xl font-bold">
+                    {item.text.content}
+                  </div>
+                ))
+              )}
+          </div>
+          <div className="my-4">
+            {properties
+              .filter(property => property.type === 'rich_text')
+              .map(prop =>
+                prop.rich_text.map(item => (
+                  <div key={item.id} className="font-serif text-xl font-base">
+                                     {item.text.content}
+                  </div>
+                ))
+              )}
+          </div>
+           <div className="my-4 font-serif cursor-pointer text-xs ml-4 px-2 py-[1px] flex justify-around shadow-md bg-[#89cff0] rounded-sm">
+            {properties
+              .filter(property => property.type === 'multi_select')
+              .map(prop =>
+                prop.multi_select.map(item => (
+                  <div key={item.id} className="">
+
+                     <div className="font-serif cursor-pointer text-xs ml-4 px-2 py-[1px] flex justify-around shadow-md bg-[#89cff0] rounded-sm">  {item?.name} </div>
+                  </div>
+                ))
+              )}
+          </div>
+      </div>
+      <hr/>
+      <div className=" xl:w-[800px] items-center justify-center px-10 min-w-[400px]">{codeBlocks}</div>
     </div>
-  )
+</div>
+);
+
+
 }
 export default pagedatas;
 
